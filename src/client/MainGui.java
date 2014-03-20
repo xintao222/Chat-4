@@ -8,7 +8,7 @@ import java.awt.Color;
 
 import javax.swing.JScrollBar;
 
-public class mainGui extends JPanel {
+public class MainGui extends JPanel {
 		private ClientModel clientModel;
 		
 	public MainGui(ClientModel clientModel) {
