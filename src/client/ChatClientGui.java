@@ -1,7 +1,6 @@
 package client;
 
 import javax.swing.JFrame;
-
 import java.awt.CardLayout;
 import java.awt.Rectangle;
 
@@ -11,7 +10,13 @@ public class ChatClientGui {
 
 	public ChatClientGui(){
 		JFrame frame = new JFrame();
+		ClientModel clientModel = new ClientModel();
+		LoginPanel loginPanel = new LoginPanel(clientModel);
+		mainGui mainGui = new mainGui(clientModel);
+		CardLayout layout = new CardLayout();
 		
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
