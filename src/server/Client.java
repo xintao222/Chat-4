@@ -11,12 +11,12 @@ import java.net.Socket;
 import commons.TestObject;
 
 public class Client implements Runnable {
-	Socket clientSocket;
-	ServerSocket ss;
-	InputStream is;
-	ObjectInputStream ois;
-	OutputStream outStream;
-	ObjectOutputStream objectOutStream;
+	private Socket clientSocket;
+	private ServerSocket ss;
+	private InputStream is;
+	private ObjectInputStream ois;
+	private OutputStream outStream;
+	private ObjectOutputStream objectOutStream;
 	boolean running = false;
 	
 

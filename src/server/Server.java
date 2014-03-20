@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Server implements Runnable {
 
-	ArrayList<Client> clients;
-	ServerSocket serverSocket;
+	private ArrayList<Client> clients;
+	private ServerSocket serverSocket;
 
 	public Server() {
 		clients = new ArrayList<Client>();
@@ -41,6 +41,6 @@ public class Server implements Runnable {
 
 	public static void main(String[] args) {
 		Server server = new Server();
-		new Thread(server).start();
+		new Thread(server).start(); 
 	}
 }
