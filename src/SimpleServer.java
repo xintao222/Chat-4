@@ -1,15 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-class testobject implements Serializable {
-	int value;
-	String id;
 
-	public testobject(int v, String s) {
-		this.value = v;
-		this.id = s;
-	}
-}
 
 public class SimpleServer {
 	public static void main(String args[]) {
@@ -19,7 +11,7 @@ public class SimpleServer {
 			Socket s = ss.accept();
 			InputStream is = s.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
-			testobject to = (testobject) ois.readObject();
+			testObject to = (testObject) ois.readObject();
 			if (to != null) {
 				System.out.println(to.id);
 			}

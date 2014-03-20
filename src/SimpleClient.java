@@ -7,7 +7,7 @@ public class SimpleClient {
 			Socket s = new Socket("localhost", 4446);
 			OutputStream os = s.getOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(os);
-			testobject to = new testobject(1, "object from client");
+			testObject to = new testObject(1, "object from client");
 			oos.writeObject(to);
 			oos.writeObject(new String("another object from the client"));
 			oos.close();
