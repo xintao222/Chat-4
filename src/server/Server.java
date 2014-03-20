@@ -1,3 +1,4 @@
+package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,6 +19,7 @@ public class Server implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
 	}
 
@@ -26,7 +28,9 @@ public class Server implements Runnable {
 		while (true) {
 			try {
 				Socket socketCon = serverSocket.accept();
-				new Thread(new ConnectionHandler(socketCon)).start();
+				Client cl = new Client(socketCon);
+				clients.add(cl);
+				new Thread(cl).start();
 			} catch (Exception e) {
 				e.printStackTrace(System.out);
 			}
@@ -35,6 +39,7 @@ public class Server implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		new Server();
+		Server server = new Server();
+		new Thread(server).start();
 	}
 }

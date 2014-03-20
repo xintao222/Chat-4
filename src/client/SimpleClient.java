@@ -1,5 +1,8 @@
+package client;
 import java.net.*;
 import java.io.*;
+
+import commons.TestObject;
 
 public class SimpleClient {
 	public SimpleClient() throws UnknownHostException, IOException {

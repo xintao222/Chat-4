@@ -1,17 +1,21 @@
+package server;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ConnectionHandler implements Runnable {
+import commons.TestObject;
+
+public class Client implements Runnable {
 	Socket s;
 	ServerSocket ss;
 	InputStream is;
 	ObjectInputStream ois;
 	boolean running = false;
 
-	public ConnectionHandler(Socket clientSocket) throws IOException {
+	public Client(Socket clientSocket) throws IOException {
 
 		is = s.getInputStream();
 		ois = new ObjectInputStream(is);
