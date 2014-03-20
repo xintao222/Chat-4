@@ -11,7 +11,7 @@ public class SimpleServer {
 			Socket s = ss.accept();
 			InputStream is = s.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
-			testObject to = (testObject) ois.readObject();
+			TestObject to = (TestObject) ois.readObject();
 			if (to != null) {
 				System.out.println(to.id);
 			}
