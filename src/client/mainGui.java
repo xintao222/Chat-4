@@ -9,12 +9,15 @@ import java.awt.Color;
 import javax.swing.JScrollBar;
 
 public class mainGui extends JPanel {
-
-	public mainGui() {
+		private ClientModel clientModel;
+		
+	public mainGui(ClientModel clientModel) {
+		this.clientModel = clientModel;
+		
 		setBackground(new Color(51, 0, 102));
 		setLayout(null);
 
-		JEditorPane writePane = new JEditorPane();
+		WriteArea writePane = new WriteArea(clientModel);
 //		writePane.setBounds(6, 275, 542, 108);
 
 		JTextArea historyArea = new JTextArea();

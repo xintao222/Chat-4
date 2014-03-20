@@ -17,4 +17,9 @@ public class ClientModel {
 		
 	}
 
+	public void sendMessage(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
