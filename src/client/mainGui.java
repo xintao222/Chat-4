@@ -1,3 +1,4 @@
+package client;
 import javax.swing.JPanel;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
