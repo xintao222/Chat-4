@@ -2,9 +2,9 @@ package client;
 
 public class ChatMain {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args){
 
 		ClientModel clientModel = new ClientModel();
-		new ChatClientGui(clientModel);
+		new Thread(new ChatClientGui(clientModel)).start();;
 	}
 }

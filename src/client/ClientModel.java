@@ -1,6 +1,8 @@
 package client;
 
-public class ClientModel {
+import java.util.Observable;
+
+public class ClientModel extends Observable{
 
 	public void setLoginName(String text) {
 		// TODO Auto-generated method stub
@@ -18,8 +20,14 @@ public class ClientModel {
 	}
 
 	public void sendMessage(String text) {
-		// TODO Auto-generated method stub
+		setChanged();
+		notifyObservers();
 		
+	}
+
+	public String getChatHistory() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -21,6 +21,7 @@ public class ConnectButton extends JButton implements ActionListener {
 		this.port = port;
 		this.loginPanel = loginPanel;
 		this.clientModel = clientModel;
+		addActionListener(this);
 		
 	}
 
