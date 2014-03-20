@@ -13,7 +13,8 @@ public class ConnectButton extends JButton implements ActionListener {
 	private JTextField port;
 	private ClientModel clientModel;
 
-	public ConnectButton(JTextField loginName, JTextField ip, JTextField port, ClientModel clientModel){
+	public ConnectButton(JTextField loginName, JTextField ip, JTextField port, ClientModel clientModel, String name){
+		super(name);
 		this.loginName = loginName;
 		this.ip = ip;
 		this.port = port;
@@ -26,7 +27,6 @@ public class ConnectButton extends JButton implements ActionListener {
 		clientModel.setLoginName(loginName.getText());
 		clientModel.setIp(ip.getText());
 		clientModel.setPort(port.getText());
-
 	}
 
 }
