@@ -11,7 +11,7 @@ import javax.swing.JScrollBar;
 public class mainGui extends JPanel {
 		private ClientModel clientModel;
 		
-	public MainGui(ClientModel clientModel) {
+	public mainGui(ClientModel clientModel) {
 		this.clientModel = clientModel;
 		
 		setBackground(new Color(51, 0, 102));

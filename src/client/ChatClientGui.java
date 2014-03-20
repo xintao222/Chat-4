@@ -12,7 +12,7 @@ public class ChatClientGui {
 		JFrame frame = new JFrame();
 		ClientModel clientModel = new ClientModel();
 		LoginPanel loginPanel = new LoginPanel(clientModel);
-		MainGui mainGui = new MainGui(clientModel);
+		mainGui mainGui = new mainGui(clientModel);
 		CardLayout layout = new CardLayout();
 		
 		
