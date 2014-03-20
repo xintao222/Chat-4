@@ -35,9 +35,9 @@ public class Client implements Runnable {
 	public void run() {
 
 		while (running) {
-			TestObject to = null;
+			Object input = null;
 			try {
-				to = (TestObject) ois.readObject();
+				input = (Object) ois.readObject();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -45,10 +45,12 @@ public class Client implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (to != null) {
-				System.out.println(to.id +"Yey");
+			
+			if (input != null && input instanceof TestObject) {
+				TestObject to = (TestObject) input;
+				System.out.println("From client: " + to.id);
 				try {
-					objectOutStream.writeObject(new TestObject(1, "works"));
+					objectOutStream.writeObject(new TestObject(1, "Hello mr, the server send this "));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

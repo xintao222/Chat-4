@@ -28,7 +28,6 @@ public class Server implements Runnable {
 		while (true) {
 			try {
 				Socket socketCon = serverSocket.accept();
-				System.out.println(socketCon);
 				Client cl = new Client(socketCon);
 				clients.add(cl);
 				new Thread(cl).start();
