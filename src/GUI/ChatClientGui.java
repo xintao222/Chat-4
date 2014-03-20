@@ -1,4 +1,4 @@
-package client;
+package GUI;
 
 import javax.swing.JFrame;
 
@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.JPanel;
+
+import client.ClientModel;
 
 public class ChatClientGui extends JFrame implements Runnable{
 	

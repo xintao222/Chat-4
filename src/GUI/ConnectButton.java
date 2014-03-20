@@ -1,10 +1,12 @@
-package client;
+package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import client.ClientModel;
 
 public class ConnectButton extends JButton implements ActionListener {
 	

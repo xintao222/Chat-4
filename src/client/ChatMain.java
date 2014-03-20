@@ -1,5 +1,7 @@
 package client;
 
+import GUI.ChatClientGui;
+
 public class ChatMain {
 	
 	public static void main(String[] args){

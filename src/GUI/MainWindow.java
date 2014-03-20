@@ -1,7 +1,10 @@
-package client;
+package GUI;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import client.ClientModel;
+import client.WriteArea;
 
 import java.awt.Color;
 
