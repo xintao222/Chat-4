@@ -18,7 +18,7 @@ public class MainWindow extends JPanel {
 		WriteArea writePane = new WriteArea(clientModel);
 //		writePane.setBounds(6, 275, 542, 108);
 
-		HistoryArea historyArea = new HistoryArea();
+		HistoryArea historyArea = new HistoryArea(clientModel);
 		
 		historyArea.setEditable(false);
 		historyArea.setBounds(6, 6, 542, 257);
