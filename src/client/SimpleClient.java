@@ -9,12 +9,13 @@ public class SimpleClient {
 		Socket s = new Socket("localhost", 4446);
 		OutputStream os = s.getOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(os);
-		TestObject to = new TestObject(1, "object from client");
+		TestObject to = new TestObject(2, "object from client");
 		oos.writeObject(to);
-		oos.writeObject(new String("another object from the client"));
 		oos.close();
 		os.close();
 		s.close();
-
+	}
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		new SimpleClient();
 	}
 }

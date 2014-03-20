@@ -21,7 +21,6 @@ public class ServerSend {
 
 	public void sendToClient(TestObject to) throws IOException {
 		objectOutStream.writeObject(to);
-		objectOutStream.writeObject(new String("another object from the client"));
 //		objectOutStream.close();
 //		outStream.close();
 //		s.close();

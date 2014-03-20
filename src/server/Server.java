@@ -14,7 +14,7 @@ public class Server implements Runnable {
 
 		int port = 4446;
 		try {
-			ServerSocket serverSocket = new ServerSocket(port);
+			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -28,12 +28,14 @@ public class Server implements Runnable {
 		while (true) {
 			try {
 				Socket socketCon = serverSocket.accept();
+				System.out.println(socketCon);
 				Client cl = new Client(socketCon);
 				clients.add(cl);
 				new Thread(cl).start();
 			} catch (Exception e) {
 				e.printStackTrace(System.out);
 			}
+			
 		}
 
 	}
