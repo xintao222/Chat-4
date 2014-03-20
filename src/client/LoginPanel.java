@@ -13,6 +13,7 @@ public class LoginPanel extends JPanel {
 	private JTextField ipField;
 	private JTextField portField;
 	private ClientModel clientModel;
+	private boolean done = false;
 	
 	public LoginPanel(ClientModel clientModel){
 		this.clientModel = clientModel;
@@ -59,11 +60,20 @@ public class LoginPanel extends JPanel {
 		lblPort.setBounds(159, 214, 81, 16);
 		add(lblPort);
 		
-		ConnectButton btnConnect = new ConnectButton(loginField, ipField, portField, clientModel, "Connect");
+		ConnectButton btnConnect = new ConnectButton(loginField, ipField, portField, clientModel, this, "Connect");
 		btnConnect.setBackground(SystemColor.menu);
 		btnConnect.setForeground(SystemColor.textText);
 		btnConnect.setBounds(144, 309, 117, 29);
 		add(btnConnect);
+		
+	}
+
+	public boolean isFinished() {
+		return done;
+	}
+
+	public void setDone() {
+		done = true;
 		
 	}
 }

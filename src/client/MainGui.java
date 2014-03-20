@@ -13,7 +13,7 @@ public class MainGui extends JPanel {
 
 	public MainGui(ClientModel clientModel) {
 		this.clientModel = clientModel;
-
+		
 		setBackground(new Color(51, 0, 102));
 		setLayout(null);
 

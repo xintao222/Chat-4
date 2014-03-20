@@ -12,12 +12,14 @@ public class ConnectButton extends JButton implements ActionListener {
 	private JTextField ip;
 	private JTextField port;
 	private ClientModel clientModel;
-
-	public ConnectButton(JTextField loginName, JTextField ip, JTextField port, ClientModel clientModel, String name){
+	private LoginPanel loginPanel;
+	
+	public ConnectButton(JTextField loginName, JTextField ip, JTextField port, ClientModel clientModel, LoginPanel loginPanel, String name){
 		super(name);
 		this.loginName = loginName;
 		this.ip = ip;
 		this.port = port;
+		this.loginPanel = loginPanel;
 		this.clientModel = clientModel;
 		
 	}
@@ -27,6 +29,7 @@ public class ConnectButton extends JButton implements ActionListener {
 		clientModel.setLoginName(loginName.getText());
 		clientModel.setIp(ip.getText());
 		clientModel.setPort(port.getText());
+		loginPanel.setDone();
 	}
 
 }
