@@ -11,19 +11,20 @@ import java.net.Socket;
 import commons.TestObject;
 
 public class Client implements Runnable {
-	Socket s;
+	Socket clientSocket;
 	ServerSocket ss;
 	InputStream is;
 	ObjectInputStream ois;
 	OutputStream outStream;
 	ObjectOutputStream objectOutStream;
 	boolean running = false;
+	
 
 	public Client(Socket clientSocket) throws IOException {
-
-		is = s.getInputStream();
+		this.clientSocket = clientSocket;
+		is = clientSocket.getInputStream();
 		ois = new ObjectInputStream(is);
-		outStream = s.getOutputStream();
+		outStream = clientSocket.getOutputStream();
 		objectOutStream = new ObjectOutputStream(outStream);
 
 		running = true;
