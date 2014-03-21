@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class Server implements Runnable {
 
-	private ArrayList<Client> clients;
+	private ArrayList<ServerClient> clients;
 	private ServerSocket serverSocket;
 
 	public Server() {
-		clients = new ArrayList<Client>();
+		clients = new ArrayList<ServerClient>();
 
 		int port = 4446;
 		try {
@@ -28,7 +28,7 @@ public class Server implements Runnable {
 		while (true) {
 			try {
 				Socket socketCon = serverSocket.accept();
-				Client cl = new Client(socketCon);
+				ServerClient cl = new ServerClient(this, socketCon);
 				clients.add(cl);
 				new Thread(cl).start();
 			} catch (Exception e) {
@@ -37,6 +37,10 @@ public class Server implements Runnable {
 			
 		}
 
+	}
+	
+	public ArrayList<ServerClient> getServerClients(){
+		return clients;
 	}
 
 	public static void main(String[] args) {

@@ -4,26 +4,25 @@ import javax.swing.JFrame;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
 import client.ClientModel;
 
-public class ChatClientGui extends JFrame implements Runnable{
+@SuppressWarnings("serial")
+public class ChatClientGui extends JFrame{
 	
 	private ClientModel clientModel;
 	
 	public ChatClientGui(ClientModel clientModel){
 		this.clientModel = clientModel;
+		init();
 		
 	}
 
-	@Override
-	public void run() {
+	public void init() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setPreferredSize(new Dimension(400, 500));
 		MainWindow mainGui = new MainWindow(clientModel);
 		CardLayout layout = new CardLayout();
 		LoginPanel loginPanel = new LoginPanel(clientModel);
@@ -48,9 +47,8 @@ public class ChatClientGui extends JFrame implements Runnable{
 		layout.next(cardPanel);
 		cardPanel.setPreferredSize(new Dimension(555, 390));
 		pack();
-
-	
 		
+
 		
 	}
 }
