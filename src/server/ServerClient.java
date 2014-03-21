@@ -46,7 +46,7 @@ public class ServerClient implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				System.out.println("unknonwn class");
 				e.printStackTrace();
 			}
 

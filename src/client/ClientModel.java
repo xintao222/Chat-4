@@ -25,6 +25,7 @@ public class ClientModel extends Observable implements Runnable {
 	private ObjectOutputStream objectOutStream;
 	private boolean running = false;
 	private ArrayList<SharedClient> connectedClients;
+	private ArrayList<String> allConnectedNames;
 
 	public ClientModel() {
 		running = true;
@@ -46,19 +47,26 @@ public class ClientModel extends Observable implements Runnable {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-
-			if (input != null && input instanceof ClientListFromServer) {
-				ClientListFromServer clientListFromServer = (ClientListFromServer) input;
-				connectedClients.addAll(clientListFromServer.getClients());
-				setChanged();
-				notifyObservers();
-			} else if (input != null && input instanceof Message) {
+			if (input != null && input instanceof Message) {
 				Message mess = (Message) input;
 				updateHistory(mess.getFrom(), mess.getMessage());
+			} else if (input != null && input instanceof ClientListFromServer) {
+				ClientListFromServer clientListFromServer = (ClientListFromServer) input;
+				ArrayList<SharedClient> tempList = clientListFromServer.getClients();
+				connectedClients.clear();
+				connectedClients.addAll(tempList);
+				allConnectedNames.clear();
+				for (SharedClient sh : tempList) {
+					allConnectedNames.add(sh.getName());
+				}
+				updateHistory("Server", "You are now connected to the server.");
 			}
-
 		}
 
+	}
+
+	public ArrayList<String> getConnectedClients() {
+		return allConnectedNames;
 	}
 
 	public void setIp(String serverIp) {
@@ -82,7 +90,7 @@ public class ClientModel extends Observable implements Runnable {
 	}
 
 	/*
-	 * Request connect to server by sending /C/
+	 * Request connection to server by sending /C/
 	 */
 	private void connectToServer() {
 		try {
@@ -102,8 +110,6 @@ public class ClientModel extends Observable implements Runnable {
 		}
 
 		updateHistory(loginName, message);
-		setChanged();
-		notifyObservers();
 
 	}
 
@@ -122,6 +128,8 @@ public class ClientModel extends Observable implements Runnable {
 	private void updateHistory(String from, String mess) {
 		String newLine = "\n" + from + ": \n" + mess;
 		messageHistory += newLine;
+		setChanged();
+		notifyObservers();
 
 	}
 
