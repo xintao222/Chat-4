@@ -48,7 +48,7 @@ public class ChatClientGui extends JFrame{
 
 		layout.next(cardPanel);
 		cardPanel.setPreferredSize(new Dimension(555, 390));
-		setResizable(true);
+		setPreferredSize(new Dimension(690, 347));
 		pack();
 		return model;
 
