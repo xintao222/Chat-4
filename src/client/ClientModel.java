@@ -95,7 +95,6 @@ public class ClientModel extends Observable implements Runnable {
 							allConnectedNames.add(sh.getName());
 						}
 						System.out.println("After: " + allConnectedNames);
-						updateHistory("Server", "You are now connected to the server.");
 					}
 				}
 			} catch (IOException e) {

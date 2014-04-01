@@ -5,6 +5,7 @@ import javax.swing.ListSelectionModel;
 
 import client.ClientModel;
 import client.HistoryArea;
+import client.SendButton;
 import client.WriteArea;
 
 import java.awt.SystemColor;
@@ -61,7 +62,7 @@ public class MainWindow extends JPanel {
 		list.addListSelectionListener(test);
 		new BetterListModel(clientModel, list);
 		
-		JButton btnSend = new JButton("Send");//new SendButton(clientModel);
+		SendButton btnSend = new SendButton(writePane, clientModel);
 		btnSend.setBounds(519, 250, 154, 56);
 		add(btnSend);
 

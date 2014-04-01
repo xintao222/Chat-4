@@ -1,6 +1,5 @@
 package server;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -10,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import commons.ClientListFromServer;
 import commons.Message;
 import commons.SharedClient;
 
@@ -19,7 +19,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 	private InputStream is;
 	private ObjectInputStream ois;
 	private OutputStream outStream;
-	public  ObjectOutputStream objectOutStream;
+	public ObjectOutputStream objectOutStream;
 	boolean running = false;
 	private Server server;
 	private int id;
@@ -61,11 +61,13 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 					if (input != null && input instanceof String) {
 
 						String message = (String) input;
-						System.out.println(name + " receivedString: " + message);
-						String[] split = message.split("/");
-						name = split[0];
-						updateOnlineClients();
-						objectOutStream.writeObject(new Message("Server", name, "You are not connected to the server"));
+						if (message.contains("/C/")) {
+							System.out.println(name + " receivedString: " + message);
+							String[] split = message.split("/");
+							name = split[0];
+							updateOnlineClients();
+							objectOutStream.writeObject(new Message("Server", name, "You are now connected to the server."));
+						}
 					} else if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
 						System.out.println(name + "received (Message) :" + mess.getMessage());
@@ -82,7 +84,6 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 	}
 
 	public void updateOnlineClients() {
-		System.out.println("Sending clientLists");
 		ArrayList<ServerClient> connectedClients = server.getServerClients();
 		ArrayList<SharedClient> shareClientList = new ArrayList<SharedClient>();
 
@@ -92,17 +93,12 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 		}
 		for (ServerClient s : connectedClients) {
 			try {
-				System.out.println("Now sending shareClients: " + shareClientList);
-				s.objectOutStream.writeObject(shareClientList);
-				System.out.println("Client list send");
+				s.objectOutStream.writeObject(new ClientListFromServer(shareClientList));
 			} catch (IOException e) {
-				System.out.println("Couldn't send array with connected clients");
 				e.printStackTrace();
 			}
 		}
 	}
-
-	
 
 	public String getName() {
 		return name;

@@ -30,7 +30,7 @@ public class Server implements Runnable {
 		while (true) {
 			try {
 				Socket socketCon = serverSocket.accept();
-				System.out.println("Connected: " + clients);
+				System.out.println("Connected clients: " + clients);
 				ServerClient cl = new ServerClient(this, socketCon);
 				clients.add(cl);
 				new Thread(cl).start();
