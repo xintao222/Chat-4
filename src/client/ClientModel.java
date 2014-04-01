@@ -78,6 +78,7 @@ public class ClientModel extends Observable implements Runnable {
 					}
 					if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
+						System.out.println("ClientModel received: " + mess.getMessage());
 						updateHistory(mess.getFrom(), mess.getMessage());
 					} else if (input != null && input instanceof ClientListFromServer) {
 						ClientListFromServer clientListFromServer = (ClientListFromServer) input;
@@ -107,7 +108,7 @@ public class ClientModel extends Observable implements Runnable {
 	 */
 	private void connectToServer() {
 		try {
-			objectOutStream.writeObject(new String("/C/"));
+			objectOutStream.writeObject(new String(loginName + "/C/"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

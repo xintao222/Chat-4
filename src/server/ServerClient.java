@@ -10,7 +10,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import commons.ClientListFromServer;
 import commons.Message;
 import commons.SharedClient;
 
@@ -34,6 +33,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient>{
 		outStream = clientSocket.getOutputStream();
 		objectOutStream = new ObjectOutputStream(outStream);
 		running = true;
+		updateOnlineClients();
 
 	}
 
@@ -62,10 +62,10 @@ public class ServerClient implements Runnable, Comparable<ServerClient>{
 					if (input != null && input instanceof String) {
 
 						String message = (String) input;
-						System.out.println(name + " received: " + message);
-						if (message.startsWith("/C/")) {
-							updateOnlineClients();
-						}
+						System.out.println(name + " receivedString: " + message);
+						String[] split = message.split("/");
+						name = split[0];
+						objectOutStream.writeObject(new Message("Hej", "Bye", "meddelandet :D"));
 
 					} else if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
@@ -122,5 +122,18 @@ public class ServerClient implements Runnable, Comparable<ServerClient>{
 	@Override
 	public int compareTo(ServerClient o) {
 		return name.compareTo(o.getName());
+	}
+
+	public void sendMessage(Message mess) {
+		try {
+			objectOutStream.writeObject(mess);
+		} catch (IOException e) {
+			System.out.println("Couldn't sendMessage()");
+			e.printStackTrace();
+		}
+		
+	}
+	public String toString(){
+		return name;
 	}
 }
