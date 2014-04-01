@@ -5,10 +5,10 @@ import GUI.ChatClientGui;
 public class ChatMain {
 	
 	public static void main(String[] args){
-
-		ClientModel clientModel = new ClientModel();
 		
-		new Thread(clientModel).start();
-		new ChatClientGui(clientModel);
+		ChatClientGui gui = new ChatClientGui();
+
+		ClientModel clientModel = gui.init();
+		new Thread(clientModel).run();;
 	}
 }

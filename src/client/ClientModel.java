@@ -17,7 +17,7 @@ public class ClientModel extends Observable implements Runnable {
 	private String messageHistory;
 	private String loginName;
 	private String serverIp;
-	private String serverPort;
+	private int serverPort;
 	private Socket clientSocket;
 	private InputStream inStream;
 	private ObjectInputStream ObjInputStream;
@@ -27,9 +27,30 @@ public class ClientModel extends Observable implements Runnable {
 	private ArrayList<SharedClient> connectedClients;
 	private ArrayList<String> allConnectedNames;
 
-	public ClientModel() {
+	public ClientModel(String loginName, String ip, int port) {
+		this.loginName = loginName;
+		this.serverIp = ip;
+		this.serverPort = port;
 		running = true;
 		connectedClients = new ArrayList<SharedClient>();
+
+		try {
+
+			clientSocket = new Socket(serverIp, serverPort);
+
+			inStream = clientSocket.getInputStream();
+
+			outStream = clientSocket.getOutputStream();
+
+			objectOutStream = new ObjectOutputStream(outStream);
+			connectToServer();
+
+			ObjInputStream = new ObjectInputStream(inStream);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void setLoginName(String loginName) {
@@ -39,54 +60,46 @@ public class ClientModel extends Observable implements Runnable {
 	@Override
 	public void run() {
 		while (running) {
-			Object input = null;
 			try {
-				input = (Object) ObjInputStream.readObject();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				Thread.sleep(50);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			if (input != null && input instanceof Message) {
-				Message mess = (Message) input;
-				updateHistory(mess.getFrom(), mess.getMessage());
-			} else if (input != null && input instanceof ClientListFromServer) {
-				ClientListFromServer clientListFromServer = (ClientListFromServer) input;
-				ArrayList<SharedClient> tempList = clientListFromServer.getClients();
-				connectedClients.clear();
-				connectedClients.addAll(tempList);
-				allConnectedNames.clear();
-				for (SharedClient sh : tempList) {
-					allConnectedNames.add(sh.getName());
+			try {
+				if (inStream.available() > 0) {
+					Object input = null;
+					try {
+						input = (Object) ObjInputStream.readObject();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+					if (input != null && input instanceof Message) {
+						Message mess = (Message) input;
+						updateHistory(mess.getFrom(), mess.getMessage());
+					} else if (input != null && input instanceof ClientListFromServer) {
+						ClientListFromServer clientListFromServer = (ClientListFromServer) input;
+						ArrayList<SharedClient> tempList = clientListFromServer.getClients();
+						connectedClients.clear();
+						connectedClients.addAll(tempList);
+						allConnectedNames.clear();
+						for (SharedClient sh : tempList) {
+							allConnectedNames.add(sh.getName());
+						}
+						updateHistory("Server", "You are now connected to the server.");
+					}
 				}
-				updateHistory("Server", "You are now connected to the server.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-
 	}
 
 	public ArrayList<String> getConnectedClients() {
 		return allConnectedNames;
-	}
-
-	public void setIp(String serverIp) {
-		this.serverIp = serverIp;
-	}
-
-	public void setPort(String serverPort) {
-		this.serverPort = serverPort;
-		try {
-			clientSocket = new Socket(serverIp, Integer.parseInt(serverPort));
-			inStream = clientSocket.getInputStream();
-			ObjInputStream = new ObjectInputStream(inStream);
-			outStream = clientSocket.getOutputStream();
-			objectOutStream = new ObjectOutputStream(outStream);
-			connectToServer();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		run();
 	}
 
 	/*

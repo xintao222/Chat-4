@@ -4,6 +4,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import commons.Message;
+
 public class Server implements Runnable {
 
 	private ArrayList<ServerClient> clients;
@@ -46,5 +48,12 @@ public class Server implements Runnable {
 	public static void main(String[] args) {
 		Server server = new Server();
 		new Thread(server).start(); 
+	}
+
+	public void passOnMessage(Message mess) {
+		String to = mess.getTo();
+		String from = mess.getFrom();
+		
+		
 	}
 }

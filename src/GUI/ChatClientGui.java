@@ -12,24 +12,20 @@ import client.ClientModel;
 @SuppressWarnings("serial")
 public class ChatClientGui extends JFrame{
 	
-	private ClientModel clientModel;
 	
-	public ChatClientGui(ClientModel clientModel){
-		this.clientModel = clientModel;
-		init();
+	public ChatClientGui(){
+		
 		
 	}
 
-	public void init() {
+	public ClientModel init() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		MainWindow mainGui = new MainWindow(clientModel);
 		CardLayout layout = new CardLayout();
-		LoginPanel loginPanel = new LoginPanel(clientModel);
+		LoginPanel loginPanel = new LoginPanel();
 		JPanel cardPanel = new JPanel(layout); //Might not need, depends on menus, => use the frame instead
 		cardPanel.setLayout(layout);
 		cardPanel.add(loginPanel, "1");
-		cardPanel.add(mainGui, "2");
 		getContentPane().add(cardPanel);
 		cardPanel.setPreferredSize(new Dimension(400, 500));
 		pack();
@@ -42,12 +38,20 @@ public class ChatClientGui extends JFrame{
 				e.printStackTrace();
 			}
 		}
-		
+		int port = loginPanel.getPort();
+		String ip = loginPanel.getIp();
+		String loginName = loginPanel.getLoginName();
+		System.out.println("truefd");
 
+		ClientModel model = new ClientModel(loginName, ip, port);
+		MainWindow mainGui = new MainWindow(model);
+		cardPanel.add(mainGui, "2");
+
+		System.out.println("next card");
 		layout.next(cardPanel);
 		cardPanel.setPreferredSize(new Dimension(555, 390));
 		pack();
-		
+		return model;
 
 		
 	}
