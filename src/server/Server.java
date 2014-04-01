@@ -62,4 +62,9 @@ public class Server implements Runnable {
 		}
 
 	}
+
+	public void exterminateMe(ServerClient serverClient) {
+		clients.remove(serverClient);
+		
+	}
 }

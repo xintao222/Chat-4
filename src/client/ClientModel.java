@@ -14,7 +14,7 @@ import java.util.Observable;
 import commons.*;
 
 public class ClientModel extends Observable implements Runnable {
-	private String messageHistory;
+	private String messageHistory = "Welcome!";
 	private String loginName;
 	private String serverIp;
 	private int serverPort;
@@ -80,14 +80,10 @@ public class ClientModel extends Observable implements Runnable {
 					}
 					if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
-						System.out.println("ClientModel received: " + mess.getMessage());
 						updateHistory(mess.getFrom(), mess.getMessage());
 					} else if (input != null && input instanceof ClientListFromServer) {
 						ClientListFromServer clientListFromServer = (ClientListFromServer) input;
-						System.out.println("Received clientList from the server");
 						ArrayList<SharedClient> tempList = clientListFromServer.getClients();
-						System.out.println("Before: " + allConnectedNames);
-					
 						connectedClients.clear();
 						connectedClients.addAll(tempList);
 						allConnectedNames.clear();
@@ -95,6 +91,8 @@ public class ClientModel extends Observable implements Runnable {
 							allConnectedNames.add(sh.getName());
 						}
 						System.out.println("After: " + allConnectedNames);
+						setChanged();
+						notifyObservers();
 					}
 				}
 			} catch (IOException e) {
@@ -136,7 +134,12 @@ public class ClientModel extends Observable implements Runnable {
 		return messageHistory;
 	}
 
+	public String getLoginName() {
+		return loginName;
+	}
+
 	public void exterminate() throws IOException {
+		objectOutStream.writeObject(new String("/EXIT/"));
 		objectOutStream.close();
 		outStream.close();
 		clientSocket.close();
@@ -145,10 +148,11 @@ public class ClientModel extends Observable implements Runnable {
 	}
 
 	private void updateHistory(String from, String mess) {
-		String newLine = "\n" + from + ": \n" + mess;
+		String newLine = "\n" + from + ": " + mess;
 		messageHistory += newLine;
 		setChanged();
 		notifyObservers();
+
 	}
 
 	public void setChatWith(String string) {

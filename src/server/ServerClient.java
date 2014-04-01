@@ -15,7 +15,7 @@ import commons.SharedClient;
 
 public class ServerClient implements Runnable, Comparable<ServerClient> {
 	private Socket clientSocket;
-	private ServerSocket ss;
+//	private ServerSocket ss;
 	private InputStream is;
 	private ObjectInputStream ois;
 	private OutputStream outStream;
@@ -46,13 +46,13 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 				e2.printStackTrace();
 			}
 			try {
-				while (is.available() > 0) {
+				while (running && is.available() > 0 ) {
 					Object input = null;
 					try {
 						input = (Object) ois.readObject();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+//						e.printStackTrace();
 					} catch (ClassNotFoundException e) {
 						System.out.println("unknonwn class");
 						e.printStackTrace();
@@ -67,6 +67,8 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 							name = split[0];
 							updateOnlineClients();
 							objectOutStream.writeObject(new Message("Server", name, "You are now connected to the server."));
+						} else if (message.contains("/EXIT/")) {
+							exterminate();
 						}
 					} else if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
@@ -104,12 +106,15 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 		return name;
 	}
 
-	public void Exterminate() {
+	public void exterminate() {
 		running = false;
+		server.exterminateMe(this);
 		try {
 			is.close();
+			ois.close();
+			objectOutStream.close();
+			outStream.close();
 			clientSocket.close();
-			ss.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
