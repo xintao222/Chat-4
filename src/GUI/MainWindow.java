@@ -12,11 +12,9 @@ import java.awt.SystemColor;
 import java.util.ArrayList;
 
 import javax.swing.JList;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JToolBar;
 
 
 public class MainWindow extends JPanel {
