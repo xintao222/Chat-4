@@ -70,7 +70,6 @@ public class LoginPanel extends JPanel {
 	}
 
 	public boolean isFinished() {
-		System.out.println("LOl " + done);
 		return done;
 	}
 

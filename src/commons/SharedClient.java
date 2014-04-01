@@ -19,4 +19,8 @@ public class SharedClient implements Serializable{
 	public String getName() {
 		return name;
 	}
+	
+	public String toString(){
+		return name;
+	}
 }

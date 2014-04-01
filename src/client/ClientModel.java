@@ -26,6 +26,7 @@ public class ClientModel extends Observable implements Runnable {
 	private boolean running = false;
 	private ArrayList<SharedClient> connectedClients;
 	private ArrayList<String> allConnectedNames;
+	private String chatWith = "troll";
 
 	public ClientModel(String loginName, String ip, int port) {
 		this.loginName = loginName;
@@ -33,6 +34,7 @@ public class ClientModel extends Observable implements Runnable {
 		this.serverPort = port;
 		running = true;
 		connectedClients = new ArrayList<SharedClient>();
+		allConnectedNames = new ArrayList<String>();
 
 		try {
 
@@ -82,13 +84,17 @@ public class ClientModel extends Observable implements Runnable {
 						updateHistory(mess.getFrom(), mess.getMessage());
 					} else if (input != null && input instanceof ClientListFromServer) {
 						ClientListFromServer clientListFromServer = (ClientListFromServer) input;
+						System.out.println("Received clientList from the server");
 						ArrayList<SharedClient> tempList = clientListFromServer.getClients();
+						System.out.println("Before: " + allConnectedNames);
+					
 						connectedClients.clear();
 						connectedClients.addAll(tempList);
 						allConnectedNames.clear();
 						for (SharedClient sh : tempList) {
 							allConnectedNames.add(sh.getName());
 						}
+						System.out.println("After: " + allConnectedNames);
 						updateHistory("Server", "You are now connected to the server.");
 					}
 				}
@@ -118,7 +124,7 @@ public class ClientModel extends Observable implements Runnable {
 	public void sendMessage(String message) {
 
 		try {
-			objectOutStream.writeObject(new String(message));
+			objectOutStream.writeObject(new Message(loginName, chatWith, message));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -144,6 +150,10 @@ public class ClientModel extends Observable implements Runnable {
 		messageHistory += newLine;
 		setChanged();
 		notifyObservers();
+	}
+
+	public void setChatWith(String string) {
+		chatWith = string;
 
 	}
 

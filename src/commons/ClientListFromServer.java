@@ -15,4 +15,7 @@ public class ClientListFromServer implements Serializable {
 	public ArrayList<SharedClient> getClients() {
 		return clients;
 	}
+	public String toString(){
+		return clients.toString();
+	}
 }

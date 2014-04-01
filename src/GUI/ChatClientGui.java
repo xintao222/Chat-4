@@ -41,15 +41,14 @@ public class ChatClientGui extends JFrame{
 		int port = loginPanel.getPort();
 		String ip = loginPanel.getIp();
 		String loginName = loginPanel.getLoginName();
-		System.out.println("truefd");
 
 		ClientModel model = new ClientModel(loginName, ip, port);
 		MainWindow mainGui = new MainWindow(model);
 		cardPanel.add(mainGui, "2");
 
-		System.out.println("next card");
 		layout.next(cardPanel);
 		cardPanel.setPreferredSize(new Dimension(555, 390));
+		setResizable(true);
 		pack();
 		return model;
 
