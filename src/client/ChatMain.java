@@ -10,6 +10,6 @@ public class ChatMain {
 
 		ClientModel clientModel = gui.init();
 		new Thread(clientModel).run();
-		
+	
 	}
 }

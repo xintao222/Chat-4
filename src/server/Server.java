@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Server implements Runnable {
 		int port = 4446;
 		try {
 			serverSocket = new ServerSocket(port);
+			serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

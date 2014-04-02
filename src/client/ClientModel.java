@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -37,19 +38,27 @@ public class ClientModel extends Observable implements Runnable {
 		allConnectedNames = new ArrayList<String>();
 
 		try {
-
+			System.out.println("make clientsocket");
+//			clientSocket = new Socket(InetAddress.getByName (serverIp), serverPort);
 			clientSocket = new Socket(serverIp, serverPort);
 
+			System.out.println("after clientsocket creating");
+
 			inStream = clientSocket.getInputStream();
+			System.out.println("lol");
 
 			outStream = clientSocket.getOutputStream();
+			System.out.println("dgkwljf");
 
 			objectOutStream = new ObjectOutputStream(outStream);
+			System.out.println("bf connect to server");
+
 			connectToServer();
 
 			ObjInputStream = new ObjectInputStream(inStream);
 
 		} catch (Exception e) {
+			System.out.println("error creating socket");
 			e.printStackTrace();
 		}
 
@@ -111,6 +120,7 @@ public class ClientModel extends Observable implements Runnable {
 	 */
 	private void connectToServer() {
 		try {
+			System.out.println("Connecting to server");
 			objectOutStream.writeObject(new String(loginName + "/C/"));
 		} catch (IOException e) {
 			e.printStackTrace();
