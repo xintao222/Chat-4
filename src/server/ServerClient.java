@@ -66,7 +66,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 							String[] split = message.split("/");
 							name = split[0];
 							updateOnlineClients();
-							objectOutStream.writeObject(new Message("Server", name, "You are now connected to the server."));
+							objectOutStream.writeObject(new Message("Forever alone", name, "You are now connected to the server."));
 						} else if (message.contains("/EXIT/")) {
 							exterminate();
 						}

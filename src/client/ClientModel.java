@@ -5,10 +5,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -29,6 +26,7 @@ public class ClientModel extends Observable implements Runnable {
 	private ArrayList<SharedClient> connectedClients;
 	private ArrayList<String> allConnectedNames;
 	private String chatWith = "Forever alone";
+	private String recentlyReceivedFrom = "null";
 
 	public ClientModel(String loginName, String ip, int port) {
 		this.loginName = loginName;
@@ -42,20 +40,13 @@ public class ClientModel extends Observable implements Runnable {
 
 		try {
 			System.out.println("make clientsocket");
-			// clientSocket = new Socket(InetAddress.getByName (serverIp),
-			// serverPort);
 			clientSocket = new Socket(serverIp, serverPort);
 
-			System.out.println("after clientsocket creating");
-
 			inStream = clientSocket.getInputStream();
-			System.out.println("lol");
 
 			outStream = clientSocket.getOutputStream();
-			System.out.println("dgkwljf");
 
 			objectOutStream = new ObjectOutputStream(outStream);
-			System.out.println("bf connect to server");
 
 			connectToServer();
 
@@ -93,10 +84,8 @@ public class ClientModel extends Observable implements Runnable {
 					}
 					if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
-						
-						//Fix message from other than currentChat with
-						
-						updateHistory(mess.getFrom(), mess.getMessage());
+
+						updateHistory(mess.getFrom(), mess.getMessage(), true);
 					} else if (input != null && input instanceof ClientListFromServer) {
 						ClientListFromServer clientListFromServer = (ClientListFromServer) input;
 						ArrayList<SharedClient> tempList = clientListFromServer.getClients();
@@ -127,7 +116,6 @@ public class ClientModel extends Observable implements Runnable {
 	 */
 	private void connectToServer() {
 		try {
-			System.out.println("Connecting to server");
 			objectOutStream.writeObject(new String(loginName + "/C/"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,7 +131,7 @@ public class ClientModel extends Observable implements Runnable {
 			e.printStackTrace();
 		}
 
-		updateHistory(loginName, message);
+		updateHistory(loginName, message, false);
 
 	}
 
@@ -161,12 +149,26 @@ public class ClientModel extends Observable implements Runnable {
 		System.exit(0);
 	}
 
-	private void updateHistory(String from, String mess) {
-		if (history.containsKey(chatWith)) {
-			SavedChatHistory sh = history.get(chatWith);
-			sh.append(from, mess);
+	private void updateHistory(String from, String mess, boolean received) {
+		if (!received) {
+			if (history.containsKey(chatWith)) {
+				SavedChatHistory sh = history.get(chatWith);
+				sh.append("You", mess);
+			} else {
+				SavedChatHistory s = new SavedChatHistory(chatWith);
+				s.append("You", mess);
+				history.put(chatWith, s);
+			}
 		} else {
-			history.put(chatWith, new SavedChatHistory(chatWith));
+			recentlyReceivedFrom = from;
+			if (history.containsKey(from)) {
+				SavedChatHistory sh = history.get(from);
+				sh.append(from, mess);
+			} else {
+				SavedChatHistory sa = new SavedChatHistory(from);
+				sa.append(from, mess);
+				history.put(from, sa);
+			}
 		}
 		setChanged();
 		notifyObservers();
@@ -175,15 +177,21 @@ public class ClientModel extends Observable implements Runnable {
 
 	public void setChatWith(String string) {
 		chatWith = string;
-
 	}
 
 	public String chatsWith() {
 		return chatWith;
 	}
 
-	public String getHistory() {
-		return history.get(chatWith).getHistory();
+	public String getHistory(String who) {
+		return history.get(who).getHistory();
+	}
+
+	public String received() {
+		String temp = recentlyReceivedFrom;
+		recentlyReceivedFrom = "null";
+		return temp;
+
 	}
 
 }
