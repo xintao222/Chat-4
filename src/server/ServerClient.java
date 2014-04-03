@@ -15,7 +15,7 @@ import commons.SharedClient;
 
 public class ServerClient implements Runnable, Comparable<ServerClient> {
 	private Socket clientSocket;
-//	private ServerSocket ss;
+	// private ServerSocket ss;
 	private InputStream is;
 	private ObjectInputStream ois;
 	private OutputStream outStream;
@@ -46,13 +46,13 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 				e2.printStackTrace();
 			}
 			try {
-				while (running && is.available() > 0 ) {
+				while (running && is.available() > 0) {
 					Object input = null;
 					try {
 						input = (Object) ois.readObject();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-//						e.printStackTrace();
+						// e.printStackTrace();
 					} catch (ClassNotFoundException e) {
 						System.out.println("unknonwn class");
 						e.printStackTrace();
@@ -66,14 +66,18 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 							String[] split = message.split("/");
 							name = split[0];
 							updateOnlineClients();
-							objectOutStream.writeObject(new Message("Forever alone", name, "You are now connected to the server."));
+							objectOutStream.writeObject(new Message("Forever alone", name, "Chat with the server if no one else is online."));
 						} else if (message.contains("/EXIT/")) {
 							exterminate();
 						}
 					} else if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
-						System.out.println(name + "received (Message) :" + mess.getMessage());
-						server.passOnMessage(mess);
+						if (mess.getTo().equals("Forever alone")) {
+							System.out.println("myself!");
+							sendMessage(new Message("Your worst enemy", name, mess.getMessage()));
+						} else {
+							server.passOnMessage(mess);
+						}
 					}
 
 				}
@@ -108,6 +112,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 
 	public void exterminate() {
 		running = false;
+
 		server.exterminateMe(this);
 		try {
 			is.close();

@@ -36,12 +36,7 @@ public class MainWindow extends JPanel {
 		ChatTabs chatTabs = new ChatTabs(clientModel);
 		
 		chatTabs.setBounds(17, 19, 490, 219);
-		new TabHandler(clientModel, chatTabs);
-		add(chatTabs);
-//		writeScroll.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-		writeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		add(writeScroll);
+		
 
 //		JScrollPane scrollHistory = new JScrollPane(historyArea);
 //		scrollHistory.setBounds(17, 19, 490, 219);
@@ -57,6 +52,12 @@ public class MainWindow extends JPanel {
 		listEntries = clientList.toArray(listEntries);
 
 		JList list = new JList(listEntries);
+		new TabHandler(clientModel, chatTabs, list);
+		add(chatTabs);
+//		writeScroll.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		writeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		add(writeScroll);
 		list.setForeground(new Color(51, 51, 102));
 		list.setBounds(519, 19, 154, 207);
 

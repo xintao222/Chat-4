@@ -32,7 +32,7 @@ public class ListListener implements ListSelectionListener {
 			for (int i = 0, n = selections.length; i < n; i++) {
 				if (i == 0) {
 				}
-				System.out.println("Listener chatting to : " + selectionValues[i].toString());
+//				System.out.println("Listener chatting to : " + selectionValues[i].toString());
 				clientModel.setChatWith(selectionValues[i].toString());
 			}
 		}

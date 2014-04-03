@@ -19,7 +19,7 @@ public class Server implements Runnable {
 		int port = 4446;
 		try {
 			serverSocket = new ServerSocket(port);
-//			serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
+			// serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,8 +55,7 @@ public class Server implements Runnable {
 
 	public void passOnMessage(Message mess) {
 		String to = mess.getTo();
-		String from = mess.getFrom();
-
+		
 		for (ServerClient sc : clients) {
 			if (sc.getName().equals(to)) {
 				sc.sendMessage(mess);
@@ -66,7 +65,15 @@ public class Server implements Runnable {
 	}
 
 	public void exterminateMe(ServerClient serverClient) {
+		System.out.println(clients);
 		clients.remove(serverClient);
-		
+		System.out.println(clients);
+
+		for (ServerClient s : clients) {
+			System.out.println(s);
+			s.updateOnlineClients();
+
+		}
+
 	}
 }

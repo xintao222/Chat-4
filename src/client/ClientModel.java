@@ -13,6 +13,7 @@ import java.util.Observable;
 import commons.*;
 
 public class ClientModel extends Observable implements Runnable {
+	public static final String mainChatName = "Forever alone";
 	private HashMap<String, SavedChatHistory> history;
 	private String loginName;
 	private String serverIp;
@@ -93,9 +94,11 @@ public class ClientModel extends Observable implements Runnable {
 						connectedClients.addAll(tempList);
 						allConnectedNames.clear();
 						for (SharedClient sh : tempList) {
-							allConnectedNames.add(sh.getName());
+							if (!sh.getName().equals(loginName)) {
+								allConnectedNames.add(sh.getName());
+							}
 						}
-						System.out.println("After: " + allConnectedNames);
+						System.out.println("After Update clients: " + allConnectedNames);
 						setChanged();
 						notifyObservers();
 					}
@@ -192,6 +195,10 @@ public class ClientModel extends Observable implements Runnable {
 		recentlyReceivedFrom = "null";
 		return temp;
 
+	}
+
+	public String getChatWith() {
+		return chatWith;
 	}
 
 }
