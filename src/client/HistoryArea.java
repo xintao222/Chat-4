@@ -1,21 +1,26 @@
 package client;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import javax.swing.JTextArea;
 
-public class HistoryArea extends JTextArea implements Observer{
-	private ClientModel clientModel;
+@SuppressWarnings("serial")
+public class HistoryArea extends JTextArea implements Comparable<HistoryArea> {
+	private String name;
 
-	public HistoryArea(ClientModel clientModel) {
-		this.clientModel = clientModel;
-		clientModel.addObserver(this);
+	public HistoryArea(String name) {
+		this.name = name;
+
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		setText(clientModel.getChatHistory());
-		
+	public int compareTo(HistoryArea o) {
+		return name.compareTo(o.getName());
+	}
+
+	public int hashCode() {
+		return name.hashCode();
 	}
 }

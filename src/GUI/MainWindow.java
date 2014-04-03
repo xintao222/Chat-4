@@ -6,6 +6,7 @@ import javax.swing.ListSelectionModel;
 import client.ClientModel;
 import client.HistoryArea;
 import client.SendButton;
+import client.TabHandler;
 import client.WriteArea;
 
 import java.awt.SystemColor;
@@ -13,10 +14,12 @@ import java.util.ArrayList;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
+
 import java.awt.Color;
 import java.awt.Font;
 
 
+@SuppressWarnings("serial")
 public class MainWindow extends JPanel {
 
 	public MainWindow(ClientModel clientModel) {		
@@ -27,26 +30,26 @@ public class MainWindow extends JPanel {
 		writePane.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
 //		writePane.setBounds(6, 275, 542, 108);
 
-		HistoryArea historyArea = new HistoryArea(clientModel);
-		historyArea.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
-		
-		historyArea.setEditable(false);
-		historyArea.setBounds(6, 6, 542, 257);
-
 		JScrollPane writeScroll = new JScrollPane(writePane);
 		writeScroll.setBounds(17, 250, 486, 56);
+		
+		ChatTabs chatTabs = new ChatTabs(clientModel);
+		
+		chatTabs.setBounds(17, 19, 490, 219);
+		new TabHandler(clientModel, chatTabs);
+		add(chatTabs);
 //		writeScroll.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		writeScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		add(writeScroll);
 
-		JScrollPane scrollHistory = new JScrollPane(historyArea);
-		scrollHistory.setBounds(17, 19, 490, 219);
+//		JScrollPane scrollHistory = new JScrollPane(historyArea);
+//		scrollHistory.setBounds(17, 19, 490, 219);
 //		scrollHistory.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		scrollHistory.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-		add(scrollHistory);
+//		scrollHistory.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
+//		add(scrollHistory);
 		
 		
 		ArrayList<String> clientList = clientModel.getConnectedClients();

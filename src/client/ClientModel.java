@@ -171,4 +171,8 @@ public class ClientModel extends Observable implements Runnable {
 
 	}
 
+	public String chatsWith() {
+		return chatWith;
+	}
+
 }
