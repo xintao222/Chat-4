@@ -155,6 +155,7 @@ public class ClientModel extends Observable implements Runnable {
 		clientSocket.close();
 		ObjInputStream.close();
 		running = false;
+		System.exit(0);
 	}
 
 	private void updateHistory(String from, String mess) {

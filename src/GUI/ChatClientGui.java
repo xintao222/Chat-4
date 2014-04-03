@@ -35,7 +35,7 @@ public class ChatClientGui extends JFrame {
 		cardPanel.setPreferredSize(new Dimension(400, 500));
 		pack();
 		setVisible(true);
-
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		while (!loginPanel.isFinished()) {
 			try {
 				Thread.sleep(200);
@@ -43,6 +43,7 @@ public class ChatClientGui extends JFrame {
 				e.printStackTrace();
 			}
 		}
+
 		int port = loginPanel.getPort();
 		String ip = loginPanel.getIp();
 		String loginName = loginPanel.getLoginName();
@@ -52,8 +53,10 @@ public class ChatClientGui extends JFrame {
 		cardPanel.add(mainGui, "2");
 
 		layout.next(cardPanel);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
 		cardPanel.setPreferredSize(new Dimension(555, 390));
-		setPreferredSize(new Dimension(690, 372));
+		getContentPane().setPreferredSize(new Dimension(695, 325));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		addWindowListener(new WindowAdapter() {
@@ -61,6 +64,7 @@ public class ChatClientGui extends JFrame {
 			public void windowClosing(WindowEvent we) {
 				try {
 					model.exterminate();
+					System.out.println("exit");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

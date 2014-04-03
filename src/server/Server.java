@@ -19,7 +19,7 @@ public class Server implements Runnable {
 		int port = 4446;
 		try {
 			serverSocket = new ServerSocket(port);
-			serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
+//			serverSocket.bind(new InetSocketAddress("0.0.0.0", port));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
