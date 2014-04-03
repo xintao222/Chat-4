@@ -10,12 +10,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 
 import commons.*;
 
 public class ClientModel extends Observable implements Runnable {
-	private String messageHistory = "Welcome!";
+	private HashMap<String, SavedChatHistory> history;
 	private String loginName;
 	private String serverIp;
 	private int serverPort;
@@ -27,7 +28,7 @@ public class ClientModel extends Observable implements Runnable {
 	private boolean running = false;
 	private ArrayList<SharedClient> connectedClients;
 	private ArrayList<String> allConnectedNames;
-	private String chatWith = "troll";
+	private String chatWith = "Forever alone";
 
 	public ClientModel(String loginName, String ip, int port) {
 		this.loginName = loginName;
@@ -36,10 +37,13 @@ public class ClientModel extends Observable implements Runnable {
 		running = true;
 		connectedClients = new ArrayList<SharedClient>();
 		allConnectedNames = new ArrayList<String>();
+		history = new HashMap<String, SavedChatHistory>();
+		history.put("Forever alone", new SavedChatHistory("Forever alone"));
 
 		try {
 			System.out.println("make clientsocket");
-//			clientSocket = new Socket(InetAddress.getByName (serverIp), serverPort);
+			// clientSocket = new Socket(InetAddress.getByName (serverIp),
+			// serverPort);
 			clientSocket = new Socket(serverIp, serverPort);
 
 			System.out.println("after clientsocket creating");
@@ -89,6 +93,9 @@ public class ClientModel extends Observable implements Runnable {
 					}
 					if (input != null && input instanceof Message) {
 						Message mess = (Message) input;
+						
+						//Fix message from other than currentChat with
+						
 						updateHistory(mess.getFrom(), mess.getMessage());
 					} else if (input != null && input instanceof ClientListFromServer) {
 						ClientListFromServer clientListFromServer = (ClientListFromServer) input;
@@ -140,10 +147,6 @@ public class ClientModel extends Observable implements Runnable {
 
 	}
 
-	public String getChatHistory() {
-		return messageHistory;
-	}
-
 	public String getLoginName() {
 		return loginName;
 	}
@@ -159,8 +162,12 @@ public class ClientModel extends Observable implements Runnable {
 	}
 
 	private void updateHistory(String from, String mess) {
-		String newLine = "\n" + from + ": " + mess;
-		messageHistory += newLine;
+		if (history.containsKey(chatWith)) {
+			SavedChatHistory sh = history.get(chatWith);
+			sh.append(from, mess);
+		} else {
+			history.put(chatWith, new SavedChatHistory(chatWith));
+		}
 		setChanged();
 		notifyObservers();
 
@@ -173,6 +180,10 @@ public class ClientModel extends Observable implements Runnable {
 
 	public String chatsWith() {
 		return chatWith;
+	}
+
+	public String getHistory() {
+		return history.get(chatWith).getHistory();
 	}
 
 }
