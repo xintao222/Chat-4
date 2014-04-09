@@ -56,7 +56,6 @@ public class ChatClientGui extends JFrame {
             public void windowClosing(WindowEvent we) {
                 try {
                     model.exterminate();
-                    System.out.println("exit");
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

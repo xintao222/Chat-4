@@ -38,7 +38,6 @@ public class ClientModel extends Observable implements Runnable {
         history.put("Forever alone", new SavedChatHistory("Forever alone"));
 
         try {
-            System.out.println("make clientsocket");
             clientSocket = new Socket(serverIp, serverPort);
 
             inStream = clientSocket.getInputStream();
@@ -190,7 +189,6 @@ public class ClientModel extends Observable implements Runnable {
         String temp = recentlyReceivedFrom;
         recentlyReceivedFrom = "null";
         return temp;
-
     }
 
     public String getChatWith() {

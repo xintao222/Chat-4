@@ -4,6 +4,7 @@ import client.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 
@@ -40,7 +41,7 @@ public class MainWindow extends JPanel {
         listEntries = clientList.toArray(listEntries);
 
         JList list = new JList(listEntries);
-       TabHandler tabHandler = new TabHandler(clientModel, chatTabs, list);
+        TabHandler tabHandler = new TabHandler(clientModel, chatTabs, list);
         add(chatTabs);
 //		writeScroll.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -79,12 +80,25 @@ public class MainWindow extends JPanel {
 
         JMenuBar menuBar = new JMenuBar();
 
-        JMenu menu = new JMenu("A Menu");
+        JMenu menuChat = new JMenu("Chat");
+        JMenuItem menuExit = new JMenuItem("Exit");
+        JMenuItem openGroup = new JMenuItem("New group");
+        menuChat.add(menuExit);
+        menuChat.add(openGroup);
+        openGroup.addActionListener(new GroupChatHandler(clientModel));
 
-        menuBar.add(menu);
+        menuBar.add(menuChat);
+
+
+        menuExit.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuExit.addActionListener(new CloseChatListener(clientModel));
+        JMenu menuEdit = new JMenu("Edit");
         JMenuItem menuItem = new JMenuItem("Close current tab");
+        menuEdit.add(menuItem);
+        menuBar.add(menuEdit);
         menuItem.addActionListener(tabHandler);
-        menu.add(menuItem);
+
 
         // setJMenuBar(menuBar);
         setLayout(new BorderLayout());

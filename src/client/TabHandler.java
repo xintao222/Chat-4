@@ -110,17 +110,17 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        if (tabs.size() != 1) {
+            int index = chatTab.getSelectedIndex();
+            if (index >= 0) {
+                JScrollPane p = (JScrollPane) chatTab.getSelectedComponent();
+                JViewport viewport = p.getViewport();
+                HistoryArea current = (HistoryArea) viewport.getView();
+                tabs.remove(current.getName());
 
-        int index = chatTab.getSelectedIndex();
-        if (index >= 0) {
-            JScrollPane p = (JScrollPane) chatTab.getSelectedComponent();
-            JViewport viewport = p.getViewport();
-            HistoryArea current = (HistoryArea) viewport.getView();
-            tabs.remove(current.getName());
+                chatTab.removeTabAt(index);
 
-            chatTab.removeTabAt(index);
-
-
+            }
         }
     }
 }
