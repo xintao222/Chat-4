@@ -1,26 +1,28 @@
 package client;
 
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class HistoryArea extends JTextArea implements Comparable<HistoryArea> {
-	private String name;
+    private String name;
 
-	public HistoryArea(String name) {
-		this.name = name;
+    public HistoryArea(String name) {
+        this.name = name;
 
-	}
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public int compareTo(HistoryArea o) {
-		return name.compareTo(o.getName());
-	}
+    @Override
+    public int compareTo(HistoryArea o) {
+        return name.compareTo(o.getName());
+    }
 
-	public int hashCode() {
-		return name.hashCode();
-	}
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+
 }
