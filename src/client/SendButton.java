@@ -23,6 +23,7 @@ public class SendButton extends JButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		clientModel.sendMessage(writeArea.getText());
 		writeArea.setText("");
+        writeArea.requestFocus();
 
 	}
 }
