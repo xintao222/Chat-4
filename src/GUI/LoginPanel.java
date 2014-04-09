@@ -1,5 +1,7 @@
 package GUI;
 
+import client.EnterHitLogin;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -66,6 +68,10 @@ public class LoginPanel extends JPanel {
 		btnConnect.setForeground(SystemColor.textText);
 		btnConnect.setBounds(144, 309, 117, 29);
 		add(btnConnect);
+
+        loginField.addKeyListener(new EnterHitLogin(btnConnect));
+        portField.addKeyListener(new EnterHitLogin(btnConnect));
+        ipField.addKeyListener(new EnterHitLogin(btnConnect));
 
 	}
 
