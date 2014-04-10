@@ -26,6 +26,7 @@ public class ClientModel extends Observable implements Runnable {
     private ArrayList<String> allConnectedNames;
     private String chatWith = "Forever alone";
     private String recentlyReceivedFrom = "null";
+    private GroupChatHandler groupHandler;
 
     public ClientModel(String loginName, String ip, int port) {
         this.loginName = loginName;
@@ -36,6 +37,8 @@ public class ClientModel extends Observable implements Runnable {
         allConnectedNames = new ArrayList<String>();
         history = new HashMap<String, SavedChatHistory>();
         history.put("Forever alone", new SavedChatHistory("Forever alone"));
+        groupHandler = new GroupChatHandler(this);
+
 
         try {
             clientSocket = new Socket(serverIp, serverPort);
@@ -199,4 +202,7 @@ public class ClientModel extends Observable implements Runnable {
         chatWith = string;
     }
 
+    public GroupChatHandler getGroupHandler(){
+        return groupHandler;
+    }
 }

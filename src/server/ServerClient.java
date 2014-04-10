@@ -54,7 +54,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 						// TODO Auto-generated catch block
 						// e.printStackTrace();
 					} catch (ClassNotFoundException e) {
-						System.out.println("unknonwn class");
+						System.out.println("Unknonwn class");
 						e.printStackTrace();
 					}
 
@@ -74,7 +74,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 						Message mess = (Message) input;
 						if (mess.getTo().equals("Forever alone")) {
 							System.out.println("myself!");
-							sendMessage(new Message("Your worst enemy", name, mess.getMessage()));
+//							sendMessage(new Message("Forever alone", name, mess.getMessage()));
 						} else {
 							server.passOnMessage(mess);
 						}

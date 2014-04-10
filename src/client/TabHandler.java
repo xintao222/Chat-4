@@ -1,7 +1,5 @@
 package client;
 
-import GUI.ChatTabs;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -65,7 +63,6 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
 
             String name = current.getName();
             if (!clients.contains(name) && !name.equals("Forever alone")) {
-                System.out.println("Removed from list: " + chatTab.getComponent(i).toString());
                 chatTab.remove(i);
             }
 
@@ -111,15 +108,18 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if (tabs.size() != 1) {
+        if (tabs.size() > 1) {
             int index = chatTab.getSelectedIndex();
             if (index >= 0) {
                 JScrollPane p = (JScrollPane) chatTab.getSelectedComponent();
                 JViewport viewport = p.getViewport();
                 HistoryArea current = (HistoryArea) viewport.getView();
-                tabs.remove(current.getName());
+                if (!current.getName().equals("Forever alone")) {
+                    tabs.remove(current.getName());
+                    chatTab.removeTabAt(index);
 
-                chatTab.removeTabAt(index);
+                }
+
 
             }
         }
