@@ -11,7 +11,12 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class MainWindow extends JPanel {
 
-    public MainWindow(ClientModel clientModel) {
+    private ClientModel clientModel;
+    private GroupChatHandler groupChatHandler;
+
+    public MainWindow(ClientModel clientModel, GroupChatHandler groupChatHandler) {
+        this.clientModel = clientModel;
+        this.groupChatHandler = groupChatHandler;
         setBackground(new Color(204, 255, 255));
         setLayout(null);
 
@@ -85,7 +90,7 @@ public class MainWindow extends JPanel {
         JMenuItem openGroup = new JMenuItem("New group");
         menuChat.add(menuExit);
         menuChat.add(openGroup);
-        openGroup.addActionListener(new GroupChatHandler(clientModel));
+        openGroup.addActionListener(groupChatHandler);
 
         menuBar.add(menuChat);
 

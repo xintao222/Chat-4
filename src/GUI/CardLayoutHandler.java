@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-/**
+/*
  * Created by krantz on 2014-04-10.
  */
 public class CardLayoutHandler extends JPanel {
@@ -28,5 +28,10 @@ public class CardLayoutHandler extends JPanel {
 
     public LoginPanel getLoginPanel() {
         return loginPanel;
+    }
+
+    public void showMainWindow() {
+        //Might not work
+        layout.previous(this);
     }
 }

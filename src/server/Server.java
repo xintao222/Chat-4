@@ -1,12 +1,12 @@
 package server;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import commons.Message;
+import commons.RequestMessage;
 
 public class Server implements Runnable {
 
@@ -58,7 +58,7 @@ public class Server implements Runnable {
 		
 		for (ServerClient sc : clients) {
 			if (sc.getName().equals(to)) {
-				sc.sendMessage(mess);
+				sc.sendObject(mess);
 			}
 		}
 
@@ -76,4 +76,14 @@ public class Server implements Runnable {
 		}
 
 	}
+
+    public void passOnRequest(RequestMessage requestMessage) {
+        String to = requestMessage.getTo();
+
+        for (ServerClient sc : clients) {
+            if (sc.getName().equals(to)) {
+                sc.sendObject(requestMessage);
+            }
+        }
+    }
 }

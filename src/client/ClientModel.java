@@ -2,6 +2,7 @@ package client;
 
 import commons.ClientListFromServer;
 import commons.Message;
+import commons.RequestMessage;
 import commons.SharedClient;
 
 import java.io.*;
@@ -26,7 +27,6 @@ public class ClientModel extends Observable implements Runnable {
     private ArrayList<String> allConnectedNames;
     private String chatWith = "Forever alone";
     private String recentlyReceivedFrom = "null";
-    private GroupChatHandler groupHandler;
 
     public ClientModel(String loginName, String ip, int port) {
         this.loginName = loginName;
@@ -37,7 +37,6 @@ public class ClientModel extends Observable implements Runnable {
         allConnectedNames = new ArrayList<String>();
         history = new HashMap<String, SavedChatHistory>();
         history.put("Forever alone", new SavedChatHistory("Forever alone"));
-        groupHandler = new GroupChatHandler(this);
 
 
         try {
@@ -94,9 +93,11 @@ public class ClientModel extends Observable implements Runnable {
                                 allConnectedNames.add(sh.getName());
                             }
                         }
-                        System.out.println("After Update clients: " + allConnectedNames);
                         setChanged();
                         notifyObservers();
+                    } else if (input != null && input instanceof RequestMessage) {
+                        RequestMessage requestMessage = (RequestMessage) input;
+                        //Continue here! Handle what to do now when receiving request. Need to talk with GroupChatHandler somehow.
                     }
                 }
             } catch (IOException e) {
@@ -124,14 +125,7 @@ public class ClientModel extends Observable implements Runnable {
 
     public void sendMessage(String message) {
         if (!message.equals("")) {
-
-
-            try {
-                objectOutStream.writeObject(new Message(loginName, chatWith, message));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            sendObject(new Message(loginName, chatWith, message));
             updateHistory(loginName, message, false);
         }
     }
@@ -202,7 +196,17 @@ public class ClientModel extends Observable implements Runnable {
         chatWith = string;
     }
 
-    public GroupChatHandler getGroupHandler(){
-        return groupHandler;
+    public void sendInvite(ArrayList<String> group) {
+        for (String s : group) {
+            sendObject(new RequestMessage(s, loginName, RequestMessage.GROUPREQUEST));
+        }
+    }
+
+    private void sendObject(Object o) {
+        try {
+            objectOutStream.writeObject(o);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

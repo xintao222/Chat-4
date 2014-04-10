@@ -1,6 +1,7 @@
 package GUI;
 
 import client.ClientModel;
+import client.GroupChatHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ public class ChatClientGui extends JFrame {
 
     }
 
+    /* Creates a login window GUI, when the user clicked connect it reads the input and returns a clientModel with that information.*/
     public ClientModel init() {
         setResizable(false);
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +43,9 @@ public class ChatClientGui extends JFrame {
         String loginName = loginPanel.getLoginName();
 
         final ClientModel model = new ClientModel(loginName, ip, port);
-        MainWindow mainGui = new MainWindow(model);
+        GroupChatHandler groupChatHandler = new GroupChatHandler(model, cardHandler);
+
+        MainWindow mainGui = new MainWindow(model, groupChatHandler);
         cardHandler.add(mainGui, "2");
 
         cardHandler.nextCard();
