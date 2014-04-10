@@ -28,6 +28,7 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
         tabs = new HashMap<String, HistoryArea>();
         createHistoryArea(clientModel.mainChatName);
         chatTab.addChangeListener(this);
+        //sdd
     }
 
     @SuppressWarnings("static-access")
