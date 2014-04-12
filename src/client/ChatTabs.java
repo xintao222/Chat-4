@@ -4,11 +4,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 import client.ClientModel;
 import com.jidesoft.swing.JideTabbedPane;
@@ -17,11 +13,12 @@ import com.jidesoft.swing.JideTabbedPane;
 @SuppressWarnings("serial")
 public class ChatTabs extends JideTabbedPane {
 	ClientModel clientModel;
+    private TabHandler handler;
 
-	public ChatTabs(ClientModel clientModel) {
+    public ChatTabs(ClientModel clientModel) {
 		this.clientModel = clientModel;
-        setShowCloseButton(true);
         setShowCloseButtonOnTab(true);
+        setShowCloseButtonOnSelectedTab(true);
 
 	}
 
@@ -36,7 +33,30 @@ public class ChatTabs extends JideTabbedPane {
 
     @Override
     public void removeTabAt(int index){
-        super.removeTabAt(index);
 
+//        int index = getSelectedIndex();
+        if (index >= 0) {
+            JScrollPane p = (JScrollPane) getSelectedComponent();
+            JViewport viewport = p.getViewport();
+            HistoryArea current = (HistoryArea) viewport.getView();
+            if (!current.getName().equals("Forever alone")) {
+                handler.remove(current.getName());
+                super.removeTabAt(index);
+
+            }
+
+
+        }
+
+//        super.removeTabAt(index);
+
+    }
+
+    public void setHandler(TabHandler handler) {
+        this.handler = handler;
+    }
+
+    public TabHandler getHandler() {
+        return handler;
     }
 }

@@ -6,7 +6,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,8 +25,9 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
         tabs = new HashMap<String, HistoryArea>();
         createHistoryArea(clientModel.mainChatName);
         chatTab.addChangeListener(this);
+        chatTab.setHandler(this);
 
-        chatTab.setCloseAction(new CloseAction(tabs, this, chatTab));
+//        chatTab.setCloseAction(new CloseAction(tabs, this, chatTab));
         //sdd
     }
 
@@ -41,7 +41,7 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
             if (tabs.containsKey(rec)) {
                 String history = clientModel.getHistory(rec);
                 tabs.get(rec).setText(history);
-                System.out.println("fel: " + rec);
+//                System.out.println("fel: " + rec);
 
             } else {
 //                System.out.println("New historyArea: " + rec);
@@ -60,20 +60,20 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
             }
         }
 
-        ArrayList<String> clients = clientModel.getConnectedClients();
-
-        for (int i = 0; i < chatTab.getComponentCount(); i++) {
-            if (chatTab.getComponent(i) instanceof JScrollBar) {
-                JScrollPane p = (JScrollPane) chatTab.getComponent(i);
-                JViewport viewport = p.getViewport();
-                HistoryArea current = (HistoryArea) viewport.getView();
-
-                String name = current.getName();
-                if (!clients.contains(name) && !name.equals("Forever alone")) {
-                    chatTab.remove(i);
-                }
-            }
-        }
+//        ArrayList<String> clients = clientModel.getConnectedClients();
+//
+//        for (int i = 0; i < chatTab.getComponentCount(); i++) {
+//            if (chatTab.getComponent(i) instanceof JScrollBar) {
+//                JScrollPane p = (JScrollPane) chatTab.getComponent(i);
+//                JViewport viewport = p.getViewport();
+//                HistoryArea current = (HistoryArea) viewport.getView();
+//
+//                String name = current.getName();
+//                if (!clients.contains(name) && !name.equals("Forever alone")) {
+//                    chatTab.remove(i);
+//                }
+//            }
+//        }
     }
 
     private HistoryArea createHistoryArea(String chatWith) {
@@ -133,5 +133,10 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
 //
 //            }
 //        }
+    }
+
+    public void remove(String name) {
+        tabs.remove(name);
+
     }
 }

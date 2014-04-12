@@ -86,6 +86,13 @@ public class ClientModel extends Observable implements Runnable {
                     } else if (input != null && input instanceof ClientListFromServer) {
                         ClientListFromServer clientListFromServer = (ClientListFromServer) input;
                         ArrayList<SharedClient> tempList = clientListFromServer.getClients();
+
+                        connectedClients.removeAll(tempList);
+                        for (SharedClient s : connectedClients) {
+                            System.out.println("Removed: " + s.getName() + "  " + connectedClients.size());
+                            history.get(s.getName()).append(s.getName(), "Disconnected from server");
+                        }
+
                         connectedClients.clear();
                         connectedClients.addAll(tempList);
                         allConnectedNames.clear();
