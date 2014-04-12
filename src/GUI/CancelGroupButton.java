@@ -13,7 +13,7 @@ public class CancelGroupButton extends JButton implements ActionListener{
     private CardLayoutHandler cardHandler;
 
     public CancelGroupButton(CardLayoutHandler cardHandler){
-        super("Cancel");
+        super("Back");
         this.cardHandler = cardHandler;
         addActionListener(this);
     }

@@ -26,10 +26,12 @@ public class CreateGroupPanel extends JPanel {
         ArrayList<String> clients = model.getConnectedClients();
         JList list = new JList(clients.toArray());
         add(list);
+        JTextField groupName = new JTextField();
         CancelGroupButton cancelButton = new CancelGroupButton(layoutHandler);
-        AddToGroupButton addGroupButton = new AddToGroupButton(model, list);
+        AddToGroupButton addGroupButton = new AddToGroupButton(model, list, groupName);
         add(addGroupButton);
         add(cancelButton);
+        add(groupName);
     }
 
 

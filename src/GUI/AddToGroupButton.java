@@ -14,10 +14,12 @@ public class AddToGroupButton extends JButton implements ActionListener {
 
     private ClientModel model;
     private JList list;
+    private JTextField groupName;
 
-    public AddToGroupButton(ClientModel model, JList list) {
+    public AddToGroupButton(ClientModel model, JList list, JTextField groupName) {
         super("Invite");
         this.model = model;
+        this.groupName = groupName;
         this.list = list;
         addActionListener(this);
     }
@@ -29,6 +31,6 @@ public class AddToGroupButton extends JButton implements ActionListener {
         for (int i = 0; i < selected.length; i++) {
             group.add((String) selected[i]);
         }
-        model.sendInvite(group);
+        model.sendInvite(group, groupName.getText());
     }
 }

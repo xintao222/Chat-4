@@ -5,6 +5,7 @@ import commons.Message;
 import commons.RequestMessage;
 import commons.SharedClient;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class ClientModel extends Observable implements Runnable {
                 if (inStream.available() > 0) {
                     Object input = null;
                     try {
-                        input = (Object) ObjInputStream.readObject();
+                        input = ObjInputStream.readObject();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
@@ -98,6 +99,9 @@ public class ClientModel extends Observable implements Runnable {
                     } else if (input != null && input instanceof RequestMessage) {
                         RequestMessage requestMessage = (RequestMessage) input;
                         //Continue here! Handle what to do now when receiving request. Need to talk with GroupChatHandler somehow.
+                        handleRequest(requestMessage);
+
+
                     }
                 }
             } catch (IOException e) {
@@ -105,6 +109,20 @@ public class ClientModel extends Observable implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void handleRequest(RequestMessage requestMessage) {
+        String groupChatName = requestMessage.getGroupName();
+        String from = requestMessage.getFrom();
+
+        //display yes/no
+        int option = JOptionPane.showConfirmDialog(null, "choose one", "choose one", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            updateHistory(groupChatName, "Joined group chat" + groupChatName, true);
+
+        }
+
+
     }
 
     public ArrayList<String> getConnectedClients() {
@@ -196,10 +214,11 @@ public class ClientModel extends Observable implements Runnable {
         chatWith = string;
     }
 
-    public void sendInvite(ArrayList<String> group) {
+    public void sendInvite(ArrayList<String> group, String groupName) {
         for (String s : group) {
-            sendObject(new RequestMessage(s, loginName, RequestMessage.GROUPREQUEST));
+            sendObject(new RequestMessage(s, loginName, groupName, RequestMessage.GROUPREQUEST));
         }
+        updateHistory(groupName, "Group chat started", false);
     }
 
     private void sendObject(Object o) {

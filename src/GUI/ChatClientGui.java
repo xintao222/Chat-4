@@ -42,8 +42,10 @@ public class ChatClientGui extends JFrame {
         String ip = loginPanel.getIp();
         String loginName = loginPanel.getLoginName();
 
+
         final ClientModel model = new ClientModel(loginName, ip, port);
         GroupChatHandler groupChatHandler = new GroupChatHandler(model, cardHandler);
+
 
         MainWindow mainGui = new MainWindow(model, groupChatHandler);
         cardHandler.add(mainGui, "2");

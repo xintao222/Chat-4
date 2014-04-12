@@ -6,20 +6,22 @@ import GUI.CreateGroupPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /*
  * Created by krantz on 2014-04-09.
  */
 public class GroupChatHandler implements ActionListener {
 
-    private ArrayList<String> inGroupChat;
+//    private ArrayList<String> inGroupChat;
     private ClientModel clientModel;
     private CardLayoutHandler layoutHandler;
 
     public GroupChatHandler(ClientModel clientModel, CardLayoutHandler layoutHandler) {
         this.clientModel = clientModel;
         this.layoutHandler = layoutHandler;
-        inGroupChat = new ArrayList<String>();
+//        inGroupChat = new ArrayList<String>();
 
     }
 
@@ -31,4 +33,6 @@ public class GroupChatHandler implements ActionListener {
         layoutHandler.add(groupPanel, "3");
         layoutHandler.nextCard();
     }
-}
+
+
+    }

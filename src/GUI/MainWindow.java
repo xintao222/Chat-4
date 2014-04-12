@@ -99,7 +99,7 @@ public class MainWindow extends JPanel {
         KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menuExit.addActionListener(new CloseChatListener(clientModel));
         JMenu menuEdit = new JMenu("Edit");
-        JMenuItem menuItem = new JMenuItem("Close current tab");
+        JMenuItem menuItem = new JMenuItem("Close current ta2b");
         menuEdit.add(menuItem);
         menuBar.add(menuEdit);
         menuItem.addActionListener(tabHandler);

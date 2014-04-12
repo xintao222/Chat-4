@@ -11,11 +11,13 @@ public class RequestMessage implements Serializable {
     private String to;
     private String from;
     private String requestType;
+    private String groupName;
 
-    public RequestMessage(String to, String from, String requestType) {
+    public RequestMessage(String to, String from, String groupName,  String requestType) {
         this.to = to;
         this.from = from;
         this.requestType = requestType;
+        this.groupName = groupName;
 
     }
 
@@ -30,5 +32,9 @@ public class RequestMessage implements Serializable {
 
     public String getTo() {
         return to;
+    }
+
+    public  String getGroupName(){
+        return groupName;
     }
 }
