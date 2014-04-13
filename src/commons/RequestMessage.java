@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class RequestMessage implements Serializable {
 
-    public static final String GROUPREQUEST = "groupRequest";
+    public static final String GROUP_REQUEST = "groupRequest";
     private String to;
     private String from;
     private String requestType;

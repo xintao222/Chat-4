@@ -1,9 +1,6 @@
 package server;
 
-import commons.ClientListFromServer;
-import commons.Message;
-import commons.RequestMessage;
-import commons.SharedClient;
+import commons.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -66,19 +63,24 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
                         } else if (message.contains("/EXIT/")) {
                             exterminate();
                         }
+                    } else if (input != null && input instanceof GroupMessage) {
+                        GroupMessage groupMessage = (GroupMessage) input;
+                        server.passOnGroupMessage(groupMessage);
+
+                    } else if (input != null && input instanceof RequestMessage) {
+                        RequestMessage requestMessage = (RequestMessage) input;
+                        server.passOnRequest(requestMessage);
+                    } else if (input != null && input instanceof AcceptRequestMessage) {
+                        AcceptRequestMessage acceptRequestMessage = (AcceptRequestMessage) input;
+                        server.passOnAccept(acceptRequestMessage);
                     } else if (input != null && input instanceof Message) {
                         Message mess = (Message) input;
                         if (mess.getTo().equals("Forever alone")) {
-                            System.out.println("myself!");
 //							sendObject(new Message("Forever alone", name, mess.getMessage()));
                         } else {
                             server.passOnMessage(mess);
                         }
-                    } else if (input != null && input instanceof RequestMessage) {
-                        RequestMessage requestMessage = (RequestMessage) input;
-                        server.passOnRequest(requestMessage);
                     }
-
                 }
             } catch (IOException e1) {
                 // TODO Auto-generated catch block

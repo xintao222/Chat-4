@@ -87,7 +87,7 @@ public class MainWindow extends JPanel {
 
         JMenu menuChat = new JMenu("Chat");
         JMenuItem menuExit = new JMenuItem("Exit");
-        JMenuItem openGroup = new JMenuItem("New group");
+        JMenuItem openGroup = new JMenuItem("Create group");
         menuChat.add(menuExit);
         menuChat.add(openGroup);
         openGroup.addActionListener(groupChatHandler);
@@ -99,10 +99,9 @@ public class MainWindow extends JPanel {
         KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menuExit.addActionListener(new CloseChatListener(clientModel));
         JMenu menuEdit = new JMenu("Edit");
-        JMenuItem menuItem = new JMenuItem("Close current ta2b");
+        JMenuItem menuItem = new JMenuItem("Close current tab");
         menuEdit.add(menuItem);
         menuBar.add(menuEdit);
-        menuItem.addActionListener(tabHandler);
 
 
         // setJMenuBar(menuBar);

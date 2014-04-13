@@ -1,9 +1,6 @@
 package client;
 
-import commons.ClientListFromServer;
-import commons.Message;
-import commons.RequestMessage;
-import commons.SharedClient;
+import commons.*;
 
 import javax.swing.*;
 import java.io.*;
@@ -79,10 +76,10 @@ public class ClientModel extends Observable implements Runnable {
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
-                    if (input != null && input instanceof Message) {
-                        Message mess = (Message) input;
+                    if (input != null && input instanceof GroupMessage) {
 
-                        updateHistory(mess.getFrom(), mess.getMessage(), true);
+                        GroupMessage groupMessage = (GroupMessage) input;
+                        updateHistory(groupMessage.getGroupName(), groupMessage.getMessage(), true, groupMessage.getFrom());
                     } else if (input != null && input instanceof ClientListFromServer) {
                         ArrayList<String> copyAllConnectedBefore = (ArrayList<String>) allConnectedNames.clone();
 
@@ -108,22 +105,26 @@ public class ClientModel extends Observable implements Runnable {
                         ArrayList<String> copyAllConnectedAfter = (ArrayList<String>) allConnectedNames.clone();
                         copyAllConnectedAfter.removeAll(copyAllConnectedBefore);
 
-                        for(String s: copyAllConnectedAfter){
-                            if(history.containsKey(s)) {
+                        for (String s : copyAllConnectedAfter) {
+                            if (history.containsKey(s)) {
                                 history.get(s).append(s, "Connected to server");
                             }
                         }
-
                         setChanged();
                         notifyObservers();
                     } else if (input != null && input instanceof RequestMessage) {
                         RequestMessage requestMessage = (RequestMessage) input;
                         //Continue here! Handle what to do now when receiving request. Need to talk with GroupChatHandler somehow.
                         handleRequest(requestMessage);
+                    } else if (input != null && input instanceof Message) {
+                        Message mess = (Message) input;
+
+                        updateHistory(mess.getFrom(), mess.getMessage(), true, null);
 
 
                     }
                 }
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -132,16 +133,19 @@ public class ClientModel extends Observable implements Runnable {
     }
 
     private void handleRequest(RequestMessage requestMessage) {
-        String groupChatName = requestMessage.getGroupName();
-        String from = requestMessage.getFrom();
 
-        //display yes/no
-        int option = JOptionPane.showConfirmDialog(null, "choose one", "choose one", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
-            updateHistory(groupChatName, "Joined group chat" + groupChatName, true);
+        if (requestMessage.getRequestType().equals(RequestMessage.GROUP_REQUEST)) {
+            String groupChatName = requestMessage.getGroupName();
+            String from = requestMessage.getFrom();
 
+            //display yes/no
+            int option = JOptionPane.showConfirmDialog(null, "Group chat invite", from + " invited you to a group chat, want to join?", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+//                String fixedGroupName = "Group: " + groupChatName;
+                sendObject(new AcceptRequestMessage(groupChatName, loginName, AcceptRequestMessage.GROUP_REQUEST_ACCEPT));
+                updateHistory(groupChatName, "Joined group chat" + groupChatName, true, null);
+            }
         }
-
 
     }
 
@@ -163,8 +167,14 @@ public class ClientModel extends Observable implements Runnable {
 
     public void sendMessage(String message) {
         if (!message.equals("")) {
-            sendObject(new Message(loginName, chatWith, message));
-            updateHistory(loginName, message, false);
+
+            if (chatsWith().contains("Group: ")) {
+                sendObject(new GroupMessage(loginName, null, message, chatWith));
+                updateHistory(loginName, message, false, null);
+            } else {
+                sendObject(new Message(loginName, chatWith, message));
+                updateHistory(loginName, message, false, null);
+            }
         }
     }
 
@@ -186,7 +196,8 @@ public class ClientModel extends Observable implements Runnable {
         System.exit(0);
     }
 
-    private void updateHistory(String from, String mess, boolean received) {
+    //String groupName should be null if it's not a group chat message
+    private void updateHistory(String from, String mess, boolean received, String groupNameFrom) {
         if (!received) {
             if (history.containsKey(chatWith)) {
                 SavedChatHistory sh = history.get(chatWith);
@@ -200,15 +211,25 @@ public class ClientModel extends Observable implements Runnable {
             recentlyReceivedFrom = from;
             if (history.containsKey(from)) {
                 SavedChatHistory sh = history.get(from);
-                sh.append(from, mess);
+                if (groupNameFrom == null) {
+                    sh.append(from, mess);
+                } else {
+                    sh.append(groupNameFrom, mess);
+                }
             } else {
                 SavedChatHistory sa = new SavedChatHistory(from);
-                sa.append(from, mess);
-                history.put(from, sa);
+                if (groupNameFrom == null) {
+                    sa.append(from, mess);
+                    history.put(from, sa);
+                } else {
+                    sa.append(groupNameFrom, mess);
+                    history.put(groupNameFrom, sa);
+                }
             }
         }
         setChanged();
         notifyObservers();
+
 
     }
 
@@ -235,10 +256,11 @@ public class ClientModel extends Observable implements Runnable {
     }
 
     public void sendInvite(ArrayList<String> group, String groupName) {
+        String realGroupName = "Group: " + groupName;
         for (String s : group) {
-            sendObject(new RequestMessage(s, loginName, groupName, RequestMessage.GROUPREQUEST));
+            sendObject(new RequestMessage(s, loginName, realGroupName, RequestMessage.GROUP_REQUEST));
         }
-        updateHistory(groupName, "Group chat started", false);
+        updateHistory(realGroupName, "Group chat started ", true, null);
     }
 
     private void sendObject(Object o) {

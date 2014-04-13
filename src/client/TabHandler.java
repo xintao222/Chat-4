@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TabHandler implements Observer, ChangeListener, ActionListener {
+public class TabHandler implements Observer, ChangeListener {
     HashMap<String, HistoryArea> tabs;
     private ClientModel clientModel;
     private ChatTabs chatTab;
@@ -101,7 +101,6 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        System.out.println(chatTab.getSelectedComponent());
         JScrollPane p = (JScrollPane) chatTab.getSelectedComponent();
         JViewport viewport = p.getViewport();
         HistoryArea current = (HistoryArea) viewport.getView();
@@ -110,30 +109,16 @@ public class TabHandler implements Observer, ChangeListener, ActionListener {
         clientModel.setChatWith(current.getName());
         if (current.getName().equals("Forever alone")) {
             list.clearSelection();
+        } else if (current.getName().contains("Group: ")) {
+            list.clearSelection();
         } else {
             list.setSelectedValue(current.getName(), true);
 
         }
+
     }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-//        if (tabs.size() > 1) {
-//            int index = chatTab.getSelectedIndex();
-//            if (index >= 0) {
-//                JScrollPane p = (JScrollPane) chatTab.getSelectedComponent();
-//                JViewport viewport = p.getViewport();
-//                HistoryArea current = (HistoryArea) viewport.getView();
-//                if (!current.getName().equals("Forever alone")) {
-//                    tabs.remove(current.getName());
-//                    chatTab.removeTabAt(index);
-//
-//                }
-//
-//
-//            }
-//        }
-    }
+
 
     public void remove(String name) {
         tabs.remove(name);
