@@ -59,21 +59,6 @@ public class TabHandler implements Observer, ChangeListener {
                 area.setText(clientModel.getHistory(chatWith));
             }
         }
-
-//        ArrayList<String> clients = clientModel.getConnectedClients();
-//
-//        for (int i = 0; i < chatTab.getComponentCount(); i++) {
-//            if (chatTab.getComponent(i) instanceof JScrollBar) {
-//                JScrollPane p = (JScrollPane) chatTab.getComponent(i);
-//                JViewport viewport = p.getViewport();
-//                HistoryArea current = (HistoryArea) viewport.getView();
-//
-//                String name = current.getName();
-//                if (!clients.contains(name) && !name.equals("Forever alone")) {
-//                    chatTab.remove(i);
-//                }
-//            }
-//        }
     }
 
     private HistoryArea createHistoryArea(String chatWith) {
