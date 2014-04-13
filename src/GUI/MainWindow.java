@@ -46,7 +46,7 @@ public class MainWindow extends JPanel {
         listEntries = clientList.toArray(listEntries);
 
         JList list = new JList(listEntries);
-        TabHandler tabHandler = new TabHandler(clientModel, chatTabs, list);
+        TabHandler tabHandler = new TabHandler(clientModel, chatTabs, list, writePane);
         add(chatTabs);
 //		writeScroll.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -61,7 +61,7 @@ public class MainWindow extends JPanel {
         add(connectedScroll);
 
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        ListListener test = new ListListener(clientModel);
+        ListListener test = new ListListener(clientModel, tabHandler, writePane);
         list.addListSelectionListener(test);
         new BetterListModel(clientModel, list);
 

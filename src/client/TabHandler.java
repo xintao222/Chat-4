@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,12 +13,14 @@ public class TabHandler implements Observer, ChangeListener {
     private ClientModel clientModel;
     private ChatTabs chatTab;
     private JList list;
+    private WriteArea writeArea;
 
     @SuppressWarnings("static-access")
-    public TabHandler(ClientModel clientModel, ChatTabs chatTab, JList list) {
+    public TabHandler(ClientModel clientModel, ChatTabs chatTab, JList list, WriteArea writeArea) {
         this.clientModel = clientModel;
         this.chatTab = chatTab;
         this.list = list;
+        this.writeArea = writeArea;
         clientModel.addObserver(this);
         tabs = new HashMap<String, HistoryArea>();
         createHistoryArea(clientModel.mainChatName);
@@ -59,6 +59,25 @@ public class TabHandler implements Observer, ChangeListener {
                 area.setText(clientModel.getHistory(chatWith));
             }
         }
+//        ArrayList<String> clients = clientModel.getConnectedClients();
+//		System.out.println("Com count: " + chatTab.getComponentCount());
+//		for (int i = 0; i < chatTab.getComponentCount(); i++) {
+//			JScrollPane p = (JScrollPane) chatTab.getComponent(i);
+//			JViewport viewport = p.getViewport();
+//			HistoryArea current = (HistoryArea) viewport.getView();
+//			String name = current.getName();
+//			if (!clients.contains(name) && name != "Forever alone") {
+//				System.out.println("Removed from list: " + chatTab.getComponent(i).toString());
+//				chatTab.remove(i);
+//			}
+//
+//		}
+    }
+
+    public void changeTab(String chatTo) {
+
+        chatTab.changeCurrent(chatTo);
+
     }
 
     private HistoryArea createHistoryArea(String chatWith) {
@@ -98,11 +117,10 @@ public class TabHandler implements Observer, ChangeListener {
             list.clearSelection();
         } else {
             list.setSelectedValue(current.getName(), true);
-
         }
-
+//        writeArea.requestFocus();
+//        writeArea.transferFocus();
     }
-
 
 
     public void remove(String name) {

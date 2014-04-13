@@ -31,8 +31,8 @@ public class BetterListModel extends DefaultListModel implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// String with = clientModel.getChatWith();//Chat with bytes
-		// list.setSelectedValue(with, true);
+//		String with = clientModel.getChatWith();//Chat with bytes
+//        list.setSelectedValue(with, true);
 		int i = list.getSelectedIndex();
 		ListModel m = list.getModel();
 		String s = null;

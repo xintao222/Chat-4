@@ -247,12 +247,12 @@ public class ClientModel extends Observable implements Runnable {
         return temp;
     }
 
-    public String getChatWith() {
-        return chatWith;
-    }
 
     public void setChatWith(String string) {
+
         chatWith = string;
+//        setChanged(); //To Fix Choose tab when changed JList
+//        notifyObservers();
     }
 
     public void sendInvite(ArrayList<String> group, String groupName) {
@@ -261,6 +261,12 @@ public class ClientModel extends Observable implements Runnable {
             sendObject(new RequestMessage(s, loginName, realGroupName, RequestMessage.GROUP_REQUEST));
         }
         updateHistory(realGroupName, "Group chat started ", true, null);
+    }
+
+    public void leaveGroups(String groupName) {
+
+        //Implementera hantering från server sida
+        sendObject(new RequestMessage(null, loginName, groupName, RequestMessage.GROUP_LEAVE));
     }
 
     private void sendObject(Object o) {

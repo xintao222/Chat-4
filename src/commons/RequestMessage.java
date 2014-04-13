@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class RequestMessage implements Serializable {
 
     public static final String GROUP_REQUEST = "groupRequest";
+    public static final String GROUP_LEAVE = "groupLeaveRequest";
+
     private String to;
     private String from;
     private String requestType;
