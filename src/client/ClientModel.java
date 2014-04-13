@@ -84,12 +84,15 @@ public class ClientModel extends Observable implements Runnable {
 
                         updateHistory(mess.getFrom(), mess.getMessage(), true);
                     } else if (input != null && input instanceof ClientListFromServer) {
+                        ArrayList<String> copyAllConnectedBefore = (ArrayList<String>) allConnectedNames.clone();
+
                         ClientListFromServer clientListFromServer = (ClientListFromServer) input;
                         ArrayList<SharedClient> tempList = clientListFromServer.getClients();
 
+
                         connectedClients.removeAll(tempList);
                         for (SharedClient s : connectedClients) {
-                            System.out.println("Removed: " + s.getName() + "  " + connectedClients.size());
+//                            System.out.println("Removed: " + s.getName() + "  " + connectedClients.size());
                             history.get(s.getName()).append(s.getName(), "Disconnected from server");
                         }
 
@@ -101,6 +104,16 @@ public class ClientModel extends Observable implements Runnable {
                                 allConnectedNames.add(sh.getName());
                             }
                         }
+
+                        ArrayList<String> copyAllConnectedAfter = (ArrayList<String>) allConnectedNames.clone();
+                        copyAllConnectedAfter.removeAll(copyAllConnectedBefore);
+
+                        for(String s: copyAllConnectedAfter){
+                            if(history.containsKey(s)) {
+                                history.get(s).append(s, "Connected to server");
+                            }
+                        }
+
                         setChanged();
                         notifyObservers();
                     } else if (input != null && input instanceof RequestMessage) {

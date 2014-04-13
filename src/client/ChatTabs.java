@@ -31,10 +31,10 @@ public class ChatTabs extends JideTabbedPane {
 
 	}
 
+
     @Override
     public void removeTabAt(int index){
-
-//        int index = getSelectedIndex();
+    //        int index = getSelectedIndex();
         if (index >= 0) {
             JScrollPane p = (JScrollPane) getSelectedComponent();
             JViewport viewport = p.getViewport();
@@ -42,6 +42,8 @@ public class ChatTabs extends JideTabbedPane {
             if (!current.getName().equals("Forever alone")) {
                 handler.remove(current.getName());
                 super.removeTabAt(index);
+
+
 
             }
 
