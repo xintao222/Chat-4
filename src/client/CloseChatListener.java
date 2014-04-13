@@ -17,10 +17,12 @@ public class CloseChatListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+
+        // TODO Leave groups before terminating
+
         try {
             model.exterminate();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.exit(0);

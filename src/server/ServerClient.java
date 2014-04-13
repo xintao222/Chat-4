@@ -35,7 +35,6 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e2) {
-                // TODO Auto-generated catch block
                 e2.printStackTrace();
             }
             try {
@@ -44,7 +43,6 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
                     try {
                         input = (Object) ois.readObject();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         // e.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         System.out.println("Unknonwn class");
@@ -83,7 +81,6 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
                     }
                 }
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         }
@@ -122,7 +119,6 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
             outStream.close();
             clientSocket.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

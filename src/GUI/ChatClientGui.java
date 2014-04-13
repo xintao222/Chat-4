@@ -63,7 +63,6 @@ public class ChatClientGui extends JFrame {
                 try {
                     model.exterminate();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 System.exit(0);

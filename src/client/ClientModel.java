@@ -63,7 +63,6 @@ public class ClientModel extends Observable implements Runnable {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             try {
@@ -126,7 +125,6 @@ public class ClientModel extends Observable implements Runnable {
                 }
 
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -265,7 +263,7 @@ public class ClientModel extends Observable implements Runnable {
 
     public void leaveGroups(String groupName) {
 
-        //Implementera hantering från server sida
+        //TODO Implementera hantering från server sida
         sendObject(new RequestMessage(null, loginName, groupName, RequestMessage.GROUP_LEAVE));
     }
 
