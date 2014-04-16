@@ -41,5 +41,6 @@ public class ListListener implements ListSelectionListener {
             }
         }
         writeArea.requestFocus();
+
     }
 }
