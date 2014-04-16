@@ -2,15 +2,19 @@ package server;/*
  * Created by krantz on 2014-04-11.
  */
 
+import commons.GroupMessage;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 
 public class GroupChatHandlerServer {
 
     private Server server;
     private String groupName;
     private String from;
-    HashMap<String, LinkedList<String>> groups;
+    HashMap<String, LinkedList<String>> groups; //< GroupName, inTheGroup >
 
     public GroupChatHandlerServer(Server server) {
         this.server = server;
@@ -41,5 +45,22 @@ public class GroupChatHandlerServer {
 
     public LinkedList<String> getGroupMembers(String to) {
         return groups.get(to);
+    }
+
+    public void removeFromGroup(String from, String groupName) {
+        System.out.println("GroupChatHandler removeFromgroup: " + groupName);
+        LinkedList<String> tempGroup = groups.get(groupName);
+        tempGroup.remove(from);
+        server.sendToAll(tempGroup, new GroupMessage(from, null, "Left the group", groupName));
+    }
+
+    public void removeFromAllGroup(String from) {
+        Set<String> set = groups.keySet();
+        for(String s : set){
+            LinkedList<String> temp = groups.get(s);
+            temp.remove(from);
+            server.sendToAll(temp, new GroupMessage(from, null, "Left the group", groupName));
+        }
+
     }
 }

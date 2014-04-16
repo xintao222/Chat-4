@@ -9,6 +9,7 @@ public class RequestMessage implements Serializable {
 
     public static final String GROUP_REQUEST = "groupRequest";
     public static final String GROUP_LEAVE = "groupLeaveRequest";
+    public static final String GROUP_ALL_LEAVE = "leaveAllGroups";
 
     private String to;
     private String from;

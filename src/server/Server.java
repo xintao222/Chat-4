@@ -71,12 +71,27 @@ public class Server implements Runnable {
 
 
     public void passOnRequest(RequestMessage requestMessage) {
-        String to = requestMessage.getTo();
-        groupChatHandler.addGroup(requestMessage.getGroupName(), requestMessage.getFrom());
-        for (ServerClient sc : clients) {
-            if (sc.getName().equals(to)) {
-                sc.sendObject(requestMessage);
+        if (requestMessage.getRequestType().equals(RequestMessage.GROUP_REQUEST)) {
+            System.out.println("Should show");
+            String to = requestMessage.getTo();
+            groupChatHandler.addGroup(requestMessage.getGroupName(), requestMessage.getFrom());
+            for (ServerClient sc : clients) {
+                if (sc.getName().equals(to)) {
+                    System.out.println("Inviting: " + sc.getName());
+
+                    sc.sendObject(requestMessage);
+                }
             }
+        } else if (requestMessage.getRequestType() == RequestMessage.GROUP_LEAVE) {
+            System.out.println("Group_Leave it is");
+            String from = requestMessage.getFrom();
+            String groupName = requestMessage.getGroupName();
+            groupChatHandler.removeFromGroup(from, groupName);
+
+        } else if (requestMessage.getRequestType() == RequestMessage.GROUP_ALL_LEAVE) {
+            String from = requestMessage.getFrom();
+            String groupName = requestMessage.getGroupName();
+            groupChatHandler.removeFromAllGroup(from);
         }
     }
 
@@ -99,7 +114,6 @@ public class Server implements Runnable {
 
     public void passOnGroupMessage(GroupMessage groupMessage) {
         LinkedList<String> groupNames = groupChatHandler.getGroupMembers(groupMessage.getGroupName());
-        System.out.println("In group: " + groupNames);
         for (String s : groupNames) {
             for (ServerClient sc : clients) {
                 if (sc.getName().equals(s) && !s.equals(groupMessage.getFrom())) {
@@ -120,5 +134,18 @@ public class Server implements Runnable {
 
         }
 
+    }
+
+    public void sendToAll(LinkedList<String> sendTo, GroupMessage groupMessage) {
+        System.out.println("Sending leave messages to all: ");
+        for (String s : sendTo) {
+            for (ServerClient c : clients) {
+                if (c.getName().equals(s)){
+                    System.out.println("Sending to: " + c.getName());
+                    c.sendObject(groupMessage);
+
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package client;
 
+import com.jidesoft.dialog.JideOptionPane;
 import com.jidesoft.swing.JideTabbedPane;
 
 import javax.swing.*;
@@ -30,7 +31,6 @@ public class ChatTabs extends JideTabbedPane {
 
     public void changeCurrent(String chatTo) {
         for (int i = 0; i < getComponentCount(); i++) {
-//            System.out.println("Selected ChatTabs: " + getComponent(i).getClass());
             if (getComponent(i) instanceof JScrollPane) {
                 JScrollPane p = (JScrollPane) getComponent(i);
                 JViewport viewport = p.getViewport();
@@ -52,8 +52,14 @@ public class ChatTabs extends JideTabbedPane {
             JViewport viewport = p.getViewport();
             HistoryArea current = (HistoryArea) viewport.getView();
             if (current.getName().contains("Group: ")) {
-                //Display notification if sure to leave groupChat
-            clientModel.leaveGroups();
+                int closeIndex = getSelectedIndex();
+                String title = getTitleAt(closeIndex);
+                if (JideOptionPane.showConfirmDialog(null, "You are about to leave: " + title, "Lave Group", JOptionPane.YES_NO_OPTION) == JideOptionPane.YES_OPTION) {
+                    clientModel.leaveGroup(title);
+                    super.removeTabAt(closeIndex);
+                }
+
+                clientModel.leaveGroup(title);
             } else if (!current.getName().equals("Forever alone")) {
                 handler.remove(current.getName());
                 super.removeTabAt(index);

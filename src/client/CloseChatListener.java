@@ -21,6 +21,7 @@ public class CloseChatListener implements ActionListener {
         // TODO Leave groups before terminating
 
         try {
+            model.leaveAllGroups();
             model.exterminate();
         } catch (IOException e) {
             e.printStackTrace();

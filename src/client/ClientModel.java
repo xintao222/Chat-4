@@ -88,7 +88,6 @@ public class ClientModel extends Observable implements Runnable {
 
                         connectedClients.removeAll(tempList);
                         for (SharedClient s : connectedClients) {
-//                            System.out.println("Removed: " + s.getName() + "  " + connectedClients.size());
                             history.get(s.getName()).append(s.getName(), "Disconnected from server");
                         }
 
@@ -131,10 +130,11 @@ public class ClientModel extends Observable implements Runnable {
     }
 
     private void handleRequest(RequestMessage requestMessage) {
-
+        System.out.println("Lalalalalal");
         if (requestMessage.getRequestType().equals(RequestMessage.GROUP_REQUEST)) {
             String groupChatName = requestMessage.getGroupName();
             String from = requestMessage.getFrom();
+            System.out.println("nfdjksnakfadx");
 
             //display yes/no
             int option = JOptionPane.showConfirmDialog(null, "Group chat invite", from + " invited you to a group chat, want to join?", JOptionPane.YES_NO_OPTION);
@@ -254,6 +254,7 @@ public class ClientModel extends Observable implements Runnable {
     }
 
     public void sendInvite(ArrayList<String> group, String groupName) {
+        System.out.println("Send inv");
         String realGroupName = "Group: " + groupName;
         for (String s : group) {
             sendObject(new RequestMessage(s, loginName, realGroupName, RequestMessage.GROUP_REQUEST));
@@ -261,10 +262,13 @@ public class ClientModel extends Observable implements Runnable {
         updateHistory(realGroupName, "Group chat started ", true, null);
     }
 
-    public void leaveGroups(String groupName) {
+    public void leaveGroup(String groupName) {
 
-        //TODO Implementera hantering från server sida
         sendObject(new RequestMessage(null, loginName, groupName, RequestMessage.GROUP_LEAVE));
+    }
+
+    public void leaveAllGroups() {
+        sendObject(new RequestMessage(null, loginName, null, RequestMessage.GROUP_ALL_LEAVE));
     }
 
     private void sendObject(Object o) {

@@ -14,6 +14,7 @@ public class TabHandler implements Observer, ChangeListener {
     private ChatTabs chatTab;
     private JList list;
     private WriteArea writeArea;
+    private TabColorHandler colorHandler;
 
     @SuppressWarnings("static-access")
     public TabHandler(ClientModel clientModel, ChatTabs chatTab, JList list, WriteArea writeArea) {
@@ -26,9 +27,12 @@ public class TabHandler implements Observer, ChangeListener {
         createHistoryArea(clientModel.mainChatName);
         chatTab.addChangeListener(this);
         chatTab.setHandler(this);
+        colorHandler = new TabColorHandler();
+        chatTab.setTabShape(ChatTabs.SHAPE_WINDOWS);
 
-//        chatTab.setCloseAction(new CloseAction(tabs, this, chatTab));
-        //sdd
+
+        chatTab.setTabColorProvider(colorHandler);
+
     }
 
     @SuppressWarnings("static-access")
@@ -47,6 +51,13 @@ public class TabHandler implements Observer, ChangeListener {
 //                System.out.println("New historyArea: " + rec);
                 HistoryArea area = createHistoryArea(rec);
                 area.setText(clientModel.getHistory(rec));
+
+            }
+            System.out.println(rec);
+
+            if (!rec.equals("Forever alone")) {
+                changeTabColor(rec);
+                chatTab.repaintTabAreaAndContentBorder();
 
             }
         } else {
@@ -74,7 +85,19 @@ public class TabHandler implements Observer, ChangeListener {
 //		}
     }
 
+
+    public void changeTabColor(String from) {
+        int count = chatTab.getTabCount();
+
+        for (int i = 0; i < count; i++) {
+            if (chatTab.getTitleAt(i).equals(from) && (i != chatTab.getSelectedIndex())) {
+                colorHandler.changeColorAtIndex(i);
+            }
+        }
+    }
+
     public void changeTab(String chatTo) {
+//        colorHandler.resetColorAtIndex(get);
 
         chatTab.changeCurrent(chatTo);
 
@@ -120,6 +143,11 @@ public class TabHandler implements Observer, ChangeListener {
         }
 //        writeArea.requestFocus();
 //        writeArea.transferFocus();
+        int i = chatTab.getSelectedIndex();
+        colorHandler.resetColorAtIndex(i);
+        chatTab.repaint();
+        chatTab.repaintTabAreaAndContentBorder();
+
     }
 
 

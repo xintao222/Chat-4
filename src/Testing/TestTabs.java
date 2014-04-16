@@ -2,6 +2,7 @@ package Testing;/*
  * Created by krantz on 2014-04-12.
  */
 
+import com.jidesoft.dialog.JideOptionPane;
 import com.jidesoft.swing.JideTabbedPane;
 
 import javax.swing.*;
@@ -10,21 +11,10 @@ import javax.swing.*;
 public class TestTabs {
 
     public TestTabs() {
-        JFrame frame = new JFrame("TestTabs");
-        JideTabbedPane tab = new JideTabbedPane();
-        tab.setShowCloseButton(true);
-//        tab.setShowCloseButtonOnSelectedTab(true);
-        tab.setShowCloseButtonOnTab(true);
-//        tab.setShowCloseButton(true);
-        JPanel p = new JPanel();
-        p.add(new JLabel("lolakjsflkzghfnsmz"));
-        tab.add("test1", new JPanel());
-        tab.add("heydnms", new JPanel());
-        tab.add("heya", p);
+        if(JideOptionPane.showConfirmDialog(null,"Lave Group", "You are about to leave: " ,JOptionPane.YES_NO_OPTION) == JideOptionPane.YES_OPTION){
 
-        frame.add(tab);
-        frame.setVisible(true);
-        frame.pack();
+        }
+
 
     }
 
