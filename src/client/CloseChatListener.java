@@ -18,7 +18,6 @@ public class CloseChatListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        // TODO Leave groups before terminating
 
         try {
             model.leaveAllGroups();
