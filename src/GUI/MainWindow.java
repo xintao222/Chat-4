@@ -94,7 +94,7 @@ public class MainWindow extends JPanel {
         openGroup.addActionListener(groupChatHandler);
         menuGroups.add(openGroup);
         JMenuItem inviteToGroup = new JMenuItem("Invite to group!");
-        inviteToGroup.addActionListener(new InviteGroupListener(clientModel, chatTabs, mainGui.getLayoutHandler()));
+        inviteToGroup.addActionListener(new InviteToGroupListener(clientModel, chatTabs, mainGui.getLayoutHandler()));
         menuGroups.add(inviteToGroup);
 
         menuBar.add(menuGroups);

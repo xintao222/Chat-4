@@ -1,8 +1,6 @@
 package GUI;
 
 import client.ClientModel;
-import client.GroupChatHandler;
-import client.InviteGroupListener;
 
 import javax.swing.*;
 import java.awt.*;
