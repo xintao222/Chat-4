@@ -34,6 +34,7 @@ public class InviteToGroupListener implements ActionListener {
         }
         CreateGroupSingleInvitePanel groupPanel = new CreateGroupSingleInvitePanel(layoutHandler,clientModel, options);
         layoutHandler.add(groupPanel, "4");
+
         layoutHandler.nextCard(); //TODO Fixing this, doesn't always work.
         layoutHandler.nextCard();
 
