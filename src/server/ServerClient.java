@@ -59,6 +59,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
                             updateOnlineClients();
                             objectOutStream.writeObject(new Message("Forever alone", name, "Chat with the server if no one else is online."));
                         } else if (message.contains("/EXIT/")) {
+                            System.out.println("Exit: " + name);
                             exterminate();
                         }
                     } else if (input != null && input instanceof GroupMessage) {
@@ -67,6 +68,7 @@ public class ServerClient implements Runnable, Comparable<ServerClient> {
 
                     } else if (input != null && input instanceof RequestMessage) {
                         RequestMessage requestMessage = (RequestMessage) input;
+                        System.out.println("RequestMessage: " + requestMessage.getRequestType());
                         server.passOnRequest(requestMessage);
                     } else if (input != null && input instanceof AcceptRequestMessage) {
                         AcceptRequestMessage acceptRequestMessage = (AcceptRequestMessage) input;

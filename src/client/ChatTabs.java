@@ -59,7 +59,6 @@ public class ChatTabs extends JideTabbedPane {
                     super.removeTabAt(closeIndex);
                 }
 
-                clientModel.leaveGroup(title);
             } else if (!current.getName().equals("Forever alone")) {
                 handler.remove(current.getName());
                 super.removeTabAt(index);

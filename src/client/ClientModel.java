@@ -88,7 +88,9 @@ public class ClientModel extends Observable implements Runnable {
 
                         connectedClients.removeAll(tempList);
                         for (SharedClient s : connectedClients) {
-                            history.get(s.getName()).append(s.getName(), "Disconnected from server");
+                            if (history.containsKey(s)) {
+                                history.get(s.getName()).append(s.getName(), "Disconnected from server");
+                            }
                         }
 
                         connectedClients.clear();
@@ -130,18 +132,16 @@ public class ClientModel extends Observable implements Runnable {
     }
 
     private void handleRequest(RequestMessage requestMessage) {
-        System.out.println("Lalalalalal");
         if (requestMessage.getRequestType().equals(RequestMessage.GROUP_REQUEST)) {
             String groupChatName = requestMessage.getGroupName();
             String from = requestMessage.getFrom();
-            System.out.println("nfdjksnakfadx");
 
             //display yes/no
             int option = JOptionPane.showConfirmDialog(null, "Group chat invite", from + " invited you to a group chat, want to join?", JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {
 //                String fixedGroupName = "Group: " + groupChatName;
                 sendObject(new AcceptRequestMessage(groupChatName, loginName, AcceptRequestMessage.GROUP_REQUEST_ACCEPT));
-                updateHistory(groupChatName, "Joined group chat" + groupChatName, true, null);
+                updateHistory(groupChatName, "Joined group chat", true, null);
             }
         }
 
@@ -254,7 +254,6 @@ public class ClientModel extends Observable implements Runnable {
     }
 
     public void sendInvite(ArrayList<String> group, String groupName) {
-        System.out.println("Send inv");
         String realGroupName = "Group: " + groupName;
         for (String s : group) {
             sendObject(new RequestMessage(s, loginName, realGroupName, RequestMessage.GROUP_REQUEST));
@@ -262,8 +261,13 @@ public class ClientModel extends Observable implements Runnable {
         updateHistory(realGroupName, "Group chat started ", true, null);
     }
 
-    public void leaveGroup(String groupName) {
+    public void sendSingleInvite(ArrayList<String> whoInv, String groupName) {
+        for (String s : whoInv) {
+            sendObject(new RequestMessage(s, loginName, groupName, RequestMessage.GROUP_REQUEST));
+        }
+    }
 
+    public void leaveGroup(String groupName) {
         sendObject(new RequestMessage(null, loginName, groupName, RequestMessage.GROUP_LEAVE));
     }
 

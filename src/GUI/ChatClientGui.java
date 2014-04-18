@@ -2,6 +2,7 @@ package GUI;
 
 import client.ClientModel;
 import client.GroupChatHandler;
+import client.InviteGroupListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class ChatClientGui extends JFrame {
-
+    private CardLayoutHandler cardHandler;
     public ChatClientGui() {
 
     }
@@ -21,7 +22,7 @@ public class ChatClientGui extends JFrame {
         setResizable(false);
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         CardLayout layout = new CardLayout();
-        CardLayoutHandler cardHandler = new CardLayoutHandler(layout);
+        cardHandler = new CardLayoutHandler(layout);
         LoginPanel loginPanel = cardHandler.getLoginPanel();
         cardHandler.setLayout(layout);
         cardHandler.add(loginPanel, "1");
@@ -44,10 +45,8 @@ public class ChatClientGui extends JFrame {
 
 
         final ClientModel model = new ClientModel(loginName, ip, port);
-        GroupChatHandler groupChatHandler = new GroupChatHandler(model, cardHandler);
 
-
-        MainWindow mainGui = new MainWindow(model, groupChatHandler);
+        MainWindow mainGui = new MainWindow(model, this);
         cardHandler.add(mainGui, "2");
 
         cardHandler.nextCard();
@@ -61,6 +60,8 @@ public class ChatClientGui extends JFrame {
             @Override
             public void windowClosing(WindowEvent we) {
                 try {
+                    model.leaveAllGroups();
+
                     model.exterminate();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -71,5 +72,9 @@ public class ChatClientGui extends JFrame {
         pack();
         return model;
 
+    }
+
+    public CardLayoutHandler getLayoutHandler() {
+        return cardHandler;
     }
 }

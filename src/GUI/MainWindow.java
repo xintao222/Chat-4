@@ -11,12 +11,8 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class MainWindow extends JPanel {
 
-    private ClientModel clientModel;
-    private GroupChatHandler groupChatHandler;
 
-    public MainWindow(ClientModel clientModel, GroupChatHandler groupChatHandler) {
-        this.clientModel = clientModel;
-        this.groupChatHandler = groupChatHandler;
+    public MainWindow(ClientModel clientModel, ChatClientGui mainGui) {
         setBackground(new Color(204, 255, 255));
         setLayout(null);
 
@@ -87,16 +83,25 @@ public class MainWindow extends JPanel {
 
         JMenu menuChat = new JMenu("Chat");
         JMenuItem menuExit = new JMenuItem("Exit");
-        JMenuItem openGroup = new JMenuItem("Create group");
         menuChat.add(menuExit);
-        menuChat.add(openGroup);
-        openGroup.addActionListener(groupChatHandler);
 
         menuBar.add(menuChat);
 
+        JMenu menuGroups = new JMenu("Groups");
+        JMenuItem openGroup = new JMenuItem("Create group");
+        GroupChatHandler groupChatHandler = new GroupChatHandler(clientModel, mainGui.getLayoutHandler());
+
+        openGroup.addActionListener(groupChatHandler);
+        menuGroups.add(openGroup);
+        JMenuItem inviteToGroup = new JMenuItem("Invite to group!");
+        inviteToGroup.addActionListener(new InviteGroupListener(clientModel, chatTabs, mainGui.getLayoutHandler()));
+        menuGroups.add(inviteToGroup);
+
+        menuBar.add(menuGroups);
+
 
         menuExit.setAccelerator(KeyStroke.getKeyStroke(
-        KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+                KeyEvent.VK_Q, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         menuExit.addActionListener(new CloseChatListener(clientModel));
         JMenu menuEdit = new JMenu("Edit");
         JMenuItem menuItem = new JMenuItem("Close current tab");
@@ -110,4 +115,6 @@ public class MainWindow extends JPanel {
 
 
     }
+
+
 }

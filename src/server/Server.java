@@ -71,8 +71,9 @@ public class Server implements Runnable {
 
 
     public void passOnRequest(RequestMessage requestMessage) {
+        System.out.println(requestMessage.getRequestType());
         if (requestMessage.getRequestType().equals(RequestMessage.GROUP_REQUEST)) {
-            System.out.println("Should show");
+
             String to = requestMessage.getTo();
             groupChatHandler.addGroup(requestMessage.getGroupName(), requestMessage.getFrom());
             for (ServerClient sc : clients) {
@@ -82,17 +83,19 @@ public class Server implements Runnable {
                     sc.sendObject(requestMessage);
                 }
             }
-        } else if (requestMessage.getRequestType() == RequestMessage.GROUP_LEAVE) {
-            System.out.println("Group_Leave it is");
+        } else if (requestMessage.getRequestType().equals(RequestMessage.GROUP_LEAVE)) {
             String from = requestMessage.getFrom();
             String groupName = requestMessage.getGroupName();
             groupChatHandler.removeFromGroup(from, groupName);
 
-        } else if (requestMessage.getRequestType() == RequestMessage.GROUP_ALL_LEAVE) {
+        } else if (requestMessage.getRequestType().equals(RequestMessage.GROUP_ALL_LEAVE)) {
+
             String from = requestMessage.getFrom();
-            String groupName = requestMessage.getGroupName();
             groupChatHandler.removeFromAllGroup(from);
+        } else {
+
         }
+
     }
 
     public void passOnAccept(AcceptRequestMessage acceptRequestMessage) {
@@ -137,10 +140,9 @@ public class Server implements Runnable {
     }
 
     public void sendToAll(LinkedList<String> sendTo, GroupMessage groupMessage) {
-        System.out.println("Sending leave messages to all: ");
         for (String s : sendTo) {
             for (ServerClient c : clients) {
-                if (c.getName().equals(s)){
+                if (c.getName().equals(s)) {
                     System.out.println("Sending to: " + c.getName());
                     c.sendObject(groupMessage);
 
